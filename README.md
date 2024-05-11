@@ -53,6 +53,14 @@ Here is a short explanation of how the server works:
 * The server uses PostgreSQL as database.
 * Whole server is Dockerized and it is easy to develop and deploy.
 
+## Cloning the repository
+
+The repository has submodules. You need to clone the repository with `--recursive` flag.
+
+```bash
+git clone --recursive https://github.com/rohanrhu/pokerunicorn-server.git
+```
+
 ## Containerization for dev environment
 
 To enable using GDBFrontend and directly developing on Linux which is the server is supposed to work on,
