@@ -1,7 +1,0 @@
-project.sublime-project
-project.sublime-workspace
-*.o
-*.exe
-examples/cities/cities.json
-*.dSYM
-.DS_Store

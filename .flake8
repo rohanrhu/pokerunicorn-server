@@ -1,3 +1,0 @@
-[flake8]
-max-line-length = 100
-ignore = E302,E305,E128,124

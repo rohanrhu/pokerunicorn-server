@@ -1,0 +1,24 @@
+var searchData=
+[
+  ['sb_5fplayer_0',['sb_player',['../group__poker.html#a4e3cac611d3d0cf4ef3d752370ef89c7',1,'pkrsrv_poker_players']]],
+  ['scalar_1',['scalar',['../group__uniqid.html#ae71335e2dc5ccff9ea39470fe9c79e6e',1,'pkrsrv_uniqid_uuid_t']]],
+  ['scores_2',['scores',['../group__poker.html#ac5be4357dca5f6c57854aec006069709',1,'pkrsrv_poker']]],
+  ['scores_5flength_3',['scores_length',['../group__poker.html#aaeb4d2cd3034dcf807f2995c267018a8',1,'pkrsrv_poker']]],
+  ['server_4',['server',['../group__lobby.html#a5b69199476a375ffcae37a63ad06ce51',1,'pkrsrv_lobby::server'],['../group__server.html#ac56bb3faf38d41e4693f98c2189f6167',1,'pkrsrv_server_client::server']]],
+  ['server_5fsocket_5',['server_socket',['../group__server.html#a938c60430bd010bd1fa1e51334a1b6dc',1,'pkrsrv_server_client']]],
+  ['session_6',['session',['../group__lobby.html#a54d8d44482a5ddc86b4b18b147e5d8d8',1,'pkrsrv_lobby_client_session::session'],['../group__lobby.html#a48fa64d241352c55af2d6dd78272f876',1,'pkrsrv_lobby_session_proceed__async_params::session'],['../group__lobby.html#a0075eb58ab8c3fb6ef13558056f21314',1,'pkrsrv_lobby_session_poker_start__async_params::session'],['../group__lobby.html#ad3b677cd8eea1523a5c4ed992d372723',1,'pkrsrv_lobby_session_poker_restart__async_params::session']]],
+  ['sessions_7',['sessions',['../group__lobby.html#a486ba70ab97f21e855381fe81a81647c',1,'pkrsrv_lobby::sessions'],['../group__lobby.html#a047e19d67ac2f3f65b0b013281fc4e14',1,'pkrsrv_lobby_client::sessions']]],
+  ['signup_8',['signup',['../group__server.html#a26f128c73b48cba1afef11fdc3197675',1,'on_client_signup_params_t']]],
+  ['size_9',['size',['../group__string.html#a85e709b4e8c46376ad3464cce48b76bd',1,'pkrsrv_string']]],
+  ['small_5fblind_10',['small_blind',['../group__table.html#ad6fdba7e656f78cdf6bc46a7744cf724',1,'pkrsrv_table_t::small_blind'],['../group__table.html#a43dd64953983599f4ea621c3dad4b6df',1,'pkrsrv_table_new_params_t::small_blind']]],
+  ['socket_11',['socket',['../group__server.html#a8a69763b51f79e7d4c1b77167a015baa',1,'pkrsrv_server_client']]],
+  ['sorted_5fplayers_12',['sorted_players',['../group__poker.html#acde42d736beb1587fe8ca15486ee82be',1,'pkrsrv_poker']]],
+  ['ssl_13',['ssl',['../group__server.html#ab6fc5f3c00b5200c0fbd91309e587d8f',1,'pkrsrv_server_client']]],
+  ['ssl_5fctx_14',['ssl_ctx',['../group__server.html#afaf3deb6d336b14e25a893da4ecd0b35',1,'pkrsrv_server']]],
+  ['starter_5fplayers_5fnum_15',['starter_players_num',['../group__poker.html#a06d697de612775883baa053e76cb7e8b',1,'pkrsrv_poker']]],
+  ['starting_5ftime_16',['starting_time',['../group__poker.html#aa9386e60cca190ca60d5f59dcf2726d7',1,'pkrsrv_poker']]],
+  ['state_17',['state',['../group__poker.html#a161df140fff029783e1e774f10a43f74',1,'pkrsrv_poker']]],
+  ['status_18',['status',['../group__deposit.html#af04eced12bc211abd36cd79d999db6f8',1,'pkrsrv_deposit_monero_deposit::status'],['../group__deposit.html#aa892be8be7a935a848534a9b0190b986',1,'pkrsrv_deposit_monero_deposit_new_params_t::status'],['../group__deposit.html#abd0acf197c057858344fd3635b82ce04',1,'pkrsrv_deposit_monero_get_deposits_param::status'],['../group__deposit.html#a75519edcf8cc845236c831b842f81c2f',1,'pkrsrv_deposit_monero_deposit_create_params::status'],['../group__server.html#af17086ec49ac7fdf32c71f887a8fa89f',1,'pkrsrv_server_send_signup_res_params_t::status']]],
+  ['string_19',['string',['../group__uniqid.html#a3d384ca4053584f01cec491954e8d2ef',1,'pkrsrv_uniqid_uuid_t']]],
+  ['synced_5faction_5fcounter_20',['synced_action_counter',['../group__poker.html#ab1cac94548adae0870c321318e8be748',1,'pkrsrv_poker']]]
+];
