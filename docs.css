@@ -1,0 +1,497 @@
+html {
+    scroll-behavior: smooth;
+}
+
+html:not(.dark-mode) {
+    --primary-color: rgb(235, 167, 209);
+    --primary-light-color: rgb(255, 223, 234);
+    --page-foreground-color: rgb(255, 255, 255);
+    --page-secondary-foreground-color: rgb(255, 255, 255);
+    --side-nav-foreground: white;
+    --header-background: transparent;
+    --menu-focus-foreground: rgb(102, 61, 78);
+    --header-foreground: white;
+    --page-background-color: transparent;
+    --tablehead-background: rgb(120, 90, 197);
+    --fragment-background: rgb(120, 90, 197);
+    --fragment-foreground: white;
+    --code-background: rgb(120, 90, 197);
+    --code-foreground: white;
+    --blockquote-background: rgb(120, 90, 197);
+    --blockquote-foreground: white;
+    --separator-color: rgb(189, 125, 207);
+    --searchbar-background: rgb(120, 90, 197);
+    --border-radius-small: 10px;
+    --primary-dark-color: #ffde54;
+    --fragment-keywordflow: #ffde54;
+    --fragment-preprocessor: #78f1eb;
+    --fragment-link: #ffcdff;
+    --fragment-comment: #a8a8a8;
+    --fragment-token: #7ad797;
+    
+    --footer-height: 256px;
+}
+
+#doc-content {
+    min-height: calc(100vh - 50px);
+}
+
+#side-nav {
+    position: fixed;
+    height: calc(100vh - 65px);
+    overflow: auto;
+    top: 65px;
+}
+
+#top {
+    position: fixed;
+    width: 100%;
+    z-index: 1;
+}
+
+html:not(.dark-mode) #top {
+    border-bottom: 0px !important;
+}
+
+.header {
+    margin-top: 75px !important;
+}
+
+html:not(.dark-mode) .header {
+    border: none !important;
+}
+
+.footer {
+    display: flex !important;
+    min-height: 50px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+#nav-tree a {
+    background: none;
+    outline: none !important;
+}
+
+#nav-tree .arrow {
+    background: transparent;
+    border: 0px;
+}
+
+html:not(.dark-mode) .MainBg {
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: -1;
+    background-color: rgb(65, 98, 222);
+    background-image: radial-gradient(circle at 50% 0%, rgba(255, 75, 156, 0.27), rgba(255, 255, 255, 0) 50.42%);
+    background-repeat: no-repeat;
+    background-size: 100% 50%;
+    background-position: top;
+}
+
+html:not(.dark-mode) #side-nav {
+    background: transparent !important;
+    border: 0px !important;
+}
+
+html:not(.dark-mode) .ui-resizable-e {
+    background: linear-gradient(transparent, rgba(255, 255, 255, 0.22), transparent) !important;
+    border: 0px !important;
+    box-shadow: none !important;
+    width: 1px !important;
+}
+
+html:not(.dark-mode) .sm-dox ul {
+    color: black !important;
+    background: var(--searchbar-background) !important;
+    border: 0px !important;
+    box-shadow: none !important;
+    border: 1px solid var(--separator-color) !important;
+}
+html:not(.dark-mode) .sm-dox ul a {
+    color: white !important;
+}
+html:not(.dark-mode) .sm-dox>li>ul:before {
+    display: none !important;
+}
+
+html:not(.dark-mode) .TopBg {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    overflow: hidden;
+    z-index: -1;
+}
+
+html:not(.dark-mode) .TopBg .MainBg {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    height: 100vh;
+    filter: blur(20px);
+}
+
+.doxtable {
+    margin-top: 30px;
+}
+
+html:not(.dark-mode) #MSearchSelect {
+    filter: brightness(0) invert(1);
+}
+
+html:not(.dark-mode) #MSearchSelectWindow {
+    position: fixed !important;
+    background: rgb(117, 90, 197) !important;
+    color: black !important;
+}
+
+html:not(.dark-mode) .groupheader {
+    box-shadow: none !important;
+}
+
+html:not(.dark-mode) div.directory {
+    border: 1px solid var(--separator-color);
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+html:not(.dark-mode) .directory td {
+    border-color: var(--separator-color) !important;
+    padding: 10px 10px !important;
+}
+html:not(.dark-mode) .directory .entry {
+    padding-right: 30px !important;
+}
+html:not(.dark-mode) .directory .desc {
+    padding-left: 30px !important;
+}
+
+html:not(.dark-mode) div.header .title {
+    font-weight: 400 !important;
+}
+
+h1, h2, h3, h4, h5 {
+    padding-top: 20px;
+}
+html:not(.dark-mode) h1, h2, h3, h4, h5 {
+    font-weight: 400 !important;
+}
+
+@media screen and (min-width: 767px) {
+    #main-nav > ul {
+        display: flex !important;
+        justify-content: center !important;
+    }
+    
+    #main-nav > ul:before {
+        content: ' ';
+        flex-grow: 1;
+    }
+    
+    #searchBoxPos2 {
+        flex-grow: 1 !important;
+        display: flex !important;
+        justify-content: end !important;
+    }
+    
+    .sm:after {
+        content: '' !important;
+        display: none !important;
+    }
+
+    html:not(.dark-mode) #main-menu > li a {
+        position: relative !important;
+        display: block;
+    }
+    html:not(.dark-mode) #main-menu li a:after {
+        display: inline-block;
+        content: ' ';
+        display: block;
+        position: absolute;
+        top: 35px;
+        left: 0;
+        width: 100%;
+        background: black;
+        background: linear-gradient(to right,#fff0,#fff,#fff0);
+        height: 2px;
+        display: none;
+    }
+    html:not(.dark-mode) #main-menu li a:hover {
+        background: none !important;
+        color: white !important;
+    }
+    #searchBoxPos2:after {
+        display: none !important;
+    }
+
+    html:not(.dark-mode) #main-menu li a:hover:after {
+        display: block !important;
+    }
+
+    html:not(.dark-mode) .sm-dox a:hover span.sub-arrow {
+        filter: brightness(0) invert(1);
+    }
+
+    html:not(.dark-mode) #main-menu li a.highlighted:after,
+    html:not(.dark-mode) #main-menu li a.current:after {
+        display: block !important;
+        background: linear-gradient(to right,#ffade000,#ffade0,#ffade000);
+    }
+    html:not(.dark-mode) #main-menu li a.current {
+        color: #ffade0 !important;
+    }
+
+    html:not(.dark-mode) #main-menu li ul li a:after {
+        background: linear-gradient(to right,#ffade000,#ffade0,#ffade000);
+    }
+}
+table.memberdecls .inherit_header td {
+    padding-left: 10px;
+}
+
+.inherit_header {
+    font-weight: 400;
+}
+
+.dynheader {
+    padding-left: 10px;
+}
+
+html:not(.dark-mode) .contents hr {
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.22), transparent) !important;
+    border: 0px !important;
+    box-shadow: none !important;
+    height: 1px !important;
+}
+
+html:not(.dark-mode) a, a:link, a:visited, a:hover, a:focus, a:active {
+    font-weight: 400 !important;
+}
+
+html:not(.dark-mode) a.qindex {
+    padding: 0px 1px !important;
+    margin: 0px 1px !important;
+    font-size: 16px !important;
+}
+
+html:not(.dark-mode) #doc-content > div.contents > div.classindex > dl > dd > a {
+    background: var(--code-background);
+    color: var(--code-foreground);
+    padding: 4px 8px;
+    border-radius: var(--border-radius-small);
+    border: 1px solid var(--separator-color);
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    display: inline-block;
+    font-weight: 400;
+    font-size: 14px;
+    transition: all 500ms;
+}
+
+html:not(.dark-mode) #doc-content > div.contents > div.classindex > dl > dd > a:hover {
+    animation: BubbleAnim 400ms forwards;
+}
+
+@keyframes BubbleAnim {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+html:not(.dark-mode) .footer {
+    padding: 25px;
+    color: white;
+    text-align: center;
+    min-height: var(--footer-height);
+}
+
+html:not(.dark-mode) .footer p {
+    line-height: 24px;
+    margin: 0px;
+    padding: 0px;
+}
+
+html:not(.dark-mode) .footer a,
+html:not(.dark-mode) .footer a:visited {
+    color: white !important;
+    transition: all 0.5s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    align-content: center;
+}
+
+html:not(.dark-mode) .footer a:hover {
+    color: white;
+}
+
+html:not(.dark-mode) .footer_legal {
+    padding: 10px 0px;
+    color: rgb(255, 173, 224);
+}
+
+.footer_social {
+    padding: 10px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.footer_social_a,
+a.footer_social_a,
+a.footer_social_a:visited {
+    padding: 0px 10px;
+    text-decoration: none;
+    color: white;
+}
+
+.footer_social_a_icon {
+    color: white !important;
+}
+html:not(.dark-mode) .footer_social_a_icon {
+    margin-right: 5px;
+}
+
+html:not(.dark-mode) div.summary {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0px;
+}
+
+html:not(.dark-mode) div.summary a {
+    font-size: 14px;
+    margin: 0px 5px;
+    padding: 5px;
+    margin-right: 0px;
+}
+
+.paramname em {
+    font-weight: 400 !important;
+    color: var(--primary-dark-color) !important;
+}
+
+@media screen and (max-width: 1070px) {
+    #projectalign {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 926px) {
+    #MSearchField {
+        width: 100px !important;
+    }
+}
+
+@media screen and (max-width: 846px) {
+    .header {
+        margin-top: 120px !important;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    #projectalign {
+        display: block;
+    }
+    
+    #projectrow {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    #searchBoxPos2 {
+        display: none;
+    }
+
+    #main-menu a.has-submenu:hover span.sub-arrow {
+        filter: none !important;
+    }
+}
+
+#projectname {
+    font-size: 22px;
+    font-weight: 400;
+}
+
+#nav-sync {
+    position: fixed !important;
+    top: 80px !important;
+    left: 270px !important;
+    width: 24px !important;
+    height: 24px !important;
+}
+
+html:not(.dark-mode) table.directory tr {
+    transition: 500ms;
+    border-radius: 10px;
+}
+html:not(.dark-mode) table.directory tr:hover {
+    animation: BlurBubbleAnim 250ms;
+}
+html:not(.dark-mode) table.directory tr td {
+}
+
+@keyframes BlurBubbleAnim {
+    0% {
+        filter: blur(0px);
+    }
+    50% {
+        filter: blur(2px);
+    }
+    100% {
+        filter: blur(0px);
+    }
+}
+
+br {
+    display: block !important;
+    height: 50px !important;
+    content: ' ' !important;
+}
+
+table.fieldtable th:first-of-type {
+    border-top-left-radius: 10px;
+}
+table.fieldtable th:last-of-type {
+    border-top-right-radius: 10px;
+}
+
+html:not(.dark-mode) #MSearchBox.MSearchBoxActive {
+    box-shadow: none !important;
+}
+
+html:not(.dark-mode) #MSearchResultsWindow {
+    background: rgb(120, 90, 197);
+}
+
+html:not(.dark-mode) .dyncontent img:first-of-type {
+    filter: brightness(4) saturate(149) hue-rotate(180deg) saturate(2) invert(1) hue-rotate(90deg) blur(0.35px) brightness(10) drop-shadow(4px 4px 0px rgba(255, 255, 255, 0.25));
+}
+
+html:not(.dark-mode) .directory .levels {
+    padding: 0px 10px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+html:not(.dark-mode) .directory .levels span {
+    color: var(--primary-color);
+    padding: 5px;
+    display: inline-block;
+}
