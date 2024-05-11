@@ -1,0 +1,13 @@
+[submodule "thirdparty/hiredis"]
+	path = thirdparty/hiredis
+	url = git@github.com:redis/hiredis.git
+[submodule "thirdparty/jsonic"]
+	path = thirdparty/jsonic
+	url = git@github.com:rohanrhu/jsonic.git
+[submodule "thirdparty/lua"]
+	path = thirdparty/lua
+	url = https://github.com/lua/lua.git
+	branch = v5.4.6
+[submodule "documentation/doxygen/doxygen-awesome-css"]
+	path = documentation/doxygen/doxygen-awesome-css
+	url = https://github.com/jothepro/doxygen-awesome-css.git

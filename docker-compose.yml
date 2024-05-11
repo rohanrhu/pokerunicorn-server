@@ -1,0 +1,102 @@
+version: "3.19"
+
+services:
+  gdbfrontend:
+    container_name: pkrsrv-gdbfrontend
+    build: .
+    restart: always
+    user: "0:0"
+    ports:
+      - "5550-5560:5550-5560"
+    volumes:
+      - .:/root/PokerServer
+      - ./host/redis:/host
+    depends_on:
+      - redis
+      - postgres
+      - monero-wallet-rpc
+    networks:
+      pkrsrv:
+        aliases:
+          - gdbfrontend
+    environment:
+      GDBFRONTEND_BIND_ADDRESS: ${PKRSRV_GDBFRONTEND_BIND_ADDRESS}
+      PKRSRV_SSL_KEY_PATH: ${PKRSRV_SSL_KEY_PATH}
+      PKRSRV_SSL_CER_PATH: ${PKRSRV_SSL_CER_PATH}
+  redis:
+    container_name: pkrsrv-redis
+    image: redis:7.0.12
+    restart: always
+    user: "0:0"
+    expose:
+      - "6379"
+    ports:
+      - "6379:6379"
+    command: redis-server --save 60 1 --loglevel warning
+    volumes: 
+      - ./redis-data:/data
+    networks:
+      pkrsrv:
+        aliases:
+          - redis
+  postgres:
+    container_name: pkrsrv-postgres
+    image: postgres:15-alpine
+    restart: always
+    user: "0:0"
+    environment:
+      POSTGRES_PASSWORD: meow
+      POSTGRES_USER: meowingcat
+    expose:
+      - "5432"
+    ports:
+      - "5432:5432"
+    command: -p 5432
+    volumes: 
+      - ./postgres-data:/var/lib/postgresql/data
+      - ./host/postgres/dummy_dump.sql:/docker-entrypoint-initdb.d/dummy_dump.sql
+    networks:
+      pkrsrv:
+        aliases:
+          - postgres
+  pgadmin:
+    container_name: pkrsrv-pgadmin
+    image: dpage/pgadmin4
+    restart: always
+    user: "0:0"
+    environment:
+      PGADMIN_LISTEN_PORT: 5040
+      PGADMIN_DEFAULT_EMAIL: meowingcate@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: meow
+    expose:
+      - "5040"
+    ports:
+      - "5040:5040"
+    volumes:
+      - ./pgadmin-data:/var/lib/pgadmin
+    networks:
+        pkrsrv:
+          aliases:
+            - pgadmin
+  monero-wallet-rpc:
+    container_name: pkrsrv-monero-wallet-rpc
+    build:
+      context: ./
+      dockerfile: ./monero-wallet-rpc/Dockerfile
+    restart: always
+    volumes:
+      - ./host/monero-wallet-rpc:/root/host
+    ports:
+      - "18082:18082" # Monero Wallet RPC stagenet
+    networks:
+        pkrsrv:
+          aliases:
+            - monero-wallet-rpc
+    environment:
+      MONERO_NODE_ADDRESS: ${PKRSRV_MONERO_NODE_ADDRESS}
+      MONERO_NODE_PORT: ${PKRSRV_MONERO_NODE_PORT}
+      MONERO_NETWORK: ${PKRSRV_MONERO_NETWORK}
+      MONERO_WALLET: ${PKRSRV_MONERO_WALLET_FILENAME}
+
+networks:
+  pkrsrv:

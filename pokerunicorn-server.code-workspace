@@ -1,0 +1,103 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"editor.indentSize": 4,
+		"files.exclude": {
+			"**/.git": true,
+			"**/.svn": true,
+			"**/.hg": true,
+			"**/CVS": true,
+			"**/.DS_Store": true,
+			"**/Thumbs.db": true,
+			"thirdparty/": true
+		},
+		"search.exclude": {
+			"**/node_modules": true,
+			"**/bower_components": true,
+			"**/*.code-search": true,
+			"thirdparty": true
+		},
+		"files.associations": {
+			"*.h": "c",
+			"random": "c",
+			"__node_handle": "c",
+			"string": "c",
+			"unordered_map": "c",
+			"vector": "c",
+			"typeinfo": "c",
+			"type_traits": "c",
+			"atomic": "c",
+			"charconv": "c",
+			"cstdint": "c",
+			"*.inc": "c",
+			"__locale": "c",
+			"memory": "c",
+			"__config": "c",
+			"__mutex_base": "c",
+			"condition_variable": "c",
+			"mutex": "c",
+			"thread": "c",
+			"version": "c",
+			"__tree": "c",
+			"memory_resource": "c",
+			"format": "c",
+			"iterator": "c",
+			"list": "c",
+			"locale": "c",
+			"bitset": "c",
+			"iomanip": "c",
+			"ostream": "c",
+			"string_view": "c",
+			"tuple": "c",
+			"__string": "c",
+			"__hash_table": "c",
+			"array": "c",
+			"functional": "c",
+			"ios": "c",
+			"sstream": "c",
+			"__threading_support": "c",
+			"complex": "c",
+			"iosfwd": "c",
+			"optional": "c",
+			"map": "c",
+			"__availability": "c",
+			"__bit_reference": "c",
+			"__memory": "c",
+			"limits": "c",
+			"ratio": "c",
+			"system_error": "c",
+			"chrono": "c",
+			"cstdarg": "c",
+			"cwchar": "c",
+			"deque": "c",
+			"istream": "c",
+			"streambuf": "c",
+			"variant": "c",
+			"forward_list": "c",
+			"compare": "c",
+			"utility": "c",
+			"span": "c",
+			"shared_mutex": "c"
+		},
+		"lldb.showDisassembly": "auto",
+		"lldb.dereferencePointers": true,
+		"lldb.consoleMode": "commands",
+		"editor.inlineSuggest.showToolbar": "onHover",
+		"sqltools.connections": [
+			{
+				"previewLimit": 50,
+				"server": "localhost",
+				"port": 5432,
+				"driver": "PostgreSQL",
+				"name": "Pkrsrv",
+				"database": "poker",
+				"username": "meowingcat",
+				"password": "meow"
+			}
+		]
+	}
+}
