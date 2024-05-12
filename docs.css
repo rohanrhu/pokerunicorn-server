@@ -24,6 +24,7 @@ html:not(.dark-mode) {
     --border-radius-small: 10px;
     --primary-dark-color: #ffde54;
     --fragment-keywordflow: #ffde54;
+    --fragment-keyword: rgb(119, 194, 255);
     --fragment-preprocessor: #78f1eb;
     --fragment-link: #ffcdff;
     --fragment-comment: #a8a8a8;
@@ -490,4 +491,8 @@ html:not(.dark-mode) .directory .levels span {
     color: var(--primary-color);
     padding: 5px;
     display: inline-block;
+}
+
+html:not(.dark-mode) div.fragment span.keywordtype {
+    color: #66ffb1;
 }
