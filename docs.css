@@ -481,10 +481,6 @@ html:not(.dark-mode) #MSearchResultsWindow {
     background: rgb(120, 90, 197);
 }
 
-html:not(.dark-mode) .dyncontent img:first-of-type {
-    filter: brightness(4) saturate(149) hue-rotate(180deg) saturate(2) invert(1) hue-rotate(90deg) blur(0.35px) brightness(10) drop-shadow(4px 4px 0px rgba(255, 255, 255, 0.25));
-}
-
 html:not(.dark-mode) .directory .levels {
     padding: 0px 10px;
     box-sizing: border-box;
