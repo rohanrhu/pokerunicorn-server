@@ -1,11 +1,11 @@
 var searchData=
 [
   ['watchers_5fcount_0',['watchers_count',['../group__table.html#a853677a0c82554205e8863327154d1ff',1,'pkrsrv_table_t::watchers_count'],['../group__table.html#a7021e7a98b74097cfc01b195e1a5bcee',1,'pkrsrv_table_new_params_t::watchers_count']]],
-  ['websocket_1',['websocket',['../group__server.html#af93c03a9a83ceafac0543b40f2916e83',1,'pkrsrv_server_client']]],
-  ['websocket_2',['Websocket',['../group__websocket.html',1,'']]],
-  ['websocket_20handshake_3',['WebSocket Handshake',['../md_PROTOCOL.html#autotoc_md61',1,'']]],
-  ['websocket_20mode_4',['WebSocket Mode',['../md_PROTOCOL.html#autotoc_md60',1,'']]],
-  ['websocket_20packet_20structure_5',['WebSocket Packet Structure',['../md_PROTOCOL.html#autotoc_md62',1,'']]],
+  ['websocket_1',['Websocket',['../group__websocket.html',1,'']]],
+  ['websocket_2',['websocket',['../group__server.html#af93c03a9a83ceafac0543b40f2916e83',1,'pkrsrv_server_client']]],
+  ['websocket_20handshake_3',['WebSocket Handshake',['../md_PROTOCOL.html#autotoc_md62',1,'']]],
+  ['websocket_20mode_4',['WebSocket Mode',['../md_PROTOCOL.html#autotoc_md61',1,'']]],
+  ['websocket_20packet_20structure_5',['WebSocket Packet Structure',['../md_PROTOCOL.html#autotoc_md63',1,'']]],
   ['websocket_20server_20tls_6',['TCP &amp; WebSocket Server (TLS)',['../group__server.html',1,'']]],
   ['websocket_20support_7',['WebSocket Support',['../md_PROTOCOL.html#autotoc_md27',1,'']]],
   ['websocket_2eh_8',['websocket.h',['../websocket_8h.html',1,'']]],

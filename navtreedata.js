@@ -37,43 +37,45 @@ var NAVTREE =
           [ "Header", "md_PROTOCOL.html#autotoc_md30", [
             [ "Opcodes", "md_PROTOCOL.html#autotoc_md31", null ]
           ] ],
-          [ "Meow", "md_PROTOCOL.html#autotoc_md32", null ],
-          [ "Signup", "md_PROTOCOL.html#autotoc_md33", null ],
-          [ "Signup Response", "md_PROTOCOL.html#autotoc_md34", null ],
-          [ "Login", "md_PROTOCOL.html#autotoc_md35", [
-            [ "Login Response", "md_PROTOCOL.html#autotoc_md36", null ]
+          [ "Meow", "md_PROTOCOL.html#autotoc_md32", null ]
+        ] ],
+        [ "Over Capacity", "md_PROTOCOL.html#autotoc_md33", [
+          [ "Signup", "md_PROTOCOL.html#autotoc_md34", null ],
+          [ "Signup Response", "md_PROTOCOL.html#autotoc_md35", null ],
+          [ "Login", "md_PROTOCOL.html#autotoc_md36", [
+            [ "Login Response", "md_PROTOCOL.html#autotoc_md37", null ]
           ] ],
-          [ "Account", "md_PROTOCOL.html#autotoc_md37", null ],
-          [ "Update Account", "md_PROTOCOL.html#autotoc_md38", [
-            [ "Update Account Response", "md_PROTOCOL.html#autotoc_md39", null ]
+          [ "Account", "md_PROTOCOL.html#autotoc_md38", null ],
+          [ "Update Account", "md_PROTOCOL.html#autotoc_md39", [
+            [ "Update Account Response", "md_PROTOCOL.html#autotoc_md40", null ]
           ] ],
-          [ "Enter", "md_PROTOCOL.html#autotoc_md40", null ],
-          [ "Enter Res", "md_PROTOCOL.html#autotoc_md41", null ],
-          [ "Leave", "md_PROTOCOL.html#autotoc_md42", null ],
-          [ "Leave Res", "md_PROTOCOL.html#autotoc_md43", null ],
-          [ "Join", "md_PROTOCOL.html#autotoc_md44", [
-            [ "Join Response", "md_PROTOCOL.html#autotoc_md45", null ]
+          [ "Enter", "md_PROTOCOL.html#autotoc_md41", null ],
+          [ "Enter Res", "md_PROTOCOL.html#autotoc_md42", null ],
+          [ "Leave", "md_PROTOCOL.html#autotoc_md43", null ],
+          [ "Leave Res", "md_PROTOCOL.html#autotoc_md44", null ],
+          [ "Join", "md_PROTOCOL.html#autotoc_md45", [
+            [ "Join Response", "md_PROTOCOL.html#autotoc_md46", null ]
           ] ],
-          [ "Unjoin", "md_PROTOCOL.html#autotoc_md46", [
-            [ "Unjoin Response", "md_PROTOCOL.html#autotoc_md47", null ]
+          [ "Unjoin", "md_PROTOCOL.html#autotoc_md47", [
+            [ "Unjoin Response", "md_PROTOCOL.html#autotoc_md48", null ]
           ] ],
-          [ "Poker Info", "md_PROTOCOL.html#autotoc_md48", null ],
-          [ "Poker State", "md_PROTOCOL.html#autotoc_md49", null ],
-          [ "Poker End", "md_PROTOCOL.html#autotoc_md50", null ],
-          [ "Poker Restarted", "md_PROTOCOL.html#autotoc_md51", null ],
-          [ "Poker Action", "md_PROTOCOL.html#autotoc_md52", null ],
-          [ "Poker Action Reflection", "md_PROTOCOL.html#autotoc_md53", null ],
-          [ "Unjoined", "md_PROTOCOL.html#autotoc_md54", null ],
-          [ "Get Tables", "md_PROTOCOL.html#autotoc_md55", null ],
-          [ "Tables", "md_PROTOCOL.html#autotoc_md56", null ],
-          [ "Get Sessions", "md_PROTOCOL.html#autotoc_md57", null ],
-          [ "Sessions", "md_PROTOCOL.html#autotoc_md58", null ],
-          [ "JSON", "md_PROTOCOL.html#autotoc_md59", null ],
-          [ "WebSocket Mode", "md_PROTOCOL.html#autotoc_md60", [
-            [ "WebSocket Handshake", "md_PROTOCOL.html#autotoc_md61", null ]
+          [ "Poker Info", "md_PROTOCOL.html#autotoc_md49", null ],
+          [ "Poker State", "md_PROTOCOL.html#autotoc_md50", null ],
+          [ "Poker End", "md_PROTOCOL.html#autotoc_md51", null ],
+          [ "Poker Restarted", "md_PROTOCOL.html#autotoc_md52", null ],
+          [ "Poker Action", "md_PROTOCOL.html#autotoc_md53", null ],
+          [ "Poker Action Reflection", "md_PROTOCOL.html#autotoc_md54", null ],
+          [ "Unjoined", "md_PROTOCOL.html#autotoc_md55", null ],
+          [ "Get Tables", "md_PROTOCOL.html#autotoc_md56", null ],
+          [ "Tables", "md_PROTOCOL.html#autotoc_md57", null ],
+          [ "Get Sessions", "md_PROTOCOL.html#autotoc_md58", null ],
+          [ "Sessions", "md_PROTOCOL.html#autotoc_md59", null ],
+          [ "JSON", "md_PROTOCOL.html#autotoc_md60", null ],
+          [ "WebSocket Mode", "md_PROTOCOL.html#autotoc_md61", [
+            [ "WebSocket Handshake", "md_PROTOCOL.html#autotoc_md62", null ]
           ] ]
         ] ],
-        [ "WebSocket Packet Structure", "md_PROTOCOL.html#autotoc_md62", null ]
+        [ "WebSocket Packet Structure", "md_PROTOCOL.html#autotoc_md63", null ]
       ] ]
     ] ],
     [ "Topics", "topics.html", "topics" ],
@@ -112,7 +114,7 @@ var NAVTREEINDEX =
 "group__server.html#a053e37db0fa1873107e0faefc7c94198",
 "group__server.html#gacffc655f13bd77b828446511d53fa5e1",
 "group__util.html#ga4f7c87d5eb697abc72805d7fe2a17bed",
-"trie_8h_source.html"
+"trie_8h.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

@@ -5,7 +5,7 @@ var searchData=
   ['identifiers_2',['Identifiers',['../group__uniqid.html',1,'Identifiers'],['../index.html#autotoc_md17',1,'Identifiers']]],
   ['important_20legal_20notice_3',['Important Legal Notice',['../index.html#autotoc_md1',1,'']]],
   ['index_4',['index',['../group__account.html#a7671e94ea7ac38d5f450143416b83215',1,'pkrsrv_account_iterator_t::index'],['../card_8h.html#a119e00339168bf5c31dbc5b7ffe60ce0',1,'pkrsrv_card::index'],['../group__deposit.html#a1a6b67dfe1a0c6d977ab626aa485cf46',1,'pkrsrv_deposit_monero_address::index']]],
-  ['info_5',['Poker Info',['../md_PROTOCOL.html#autotoc_md48',1,'']]],
+  ['info_5',['Poker Info',['../md_PROTOCOL.html#autotoc_md49',1,'']]],
   ['is_5falive_6',['is_alive',['../group__server.html#a9a98cc511596c136c89fe3a85d0a523c',1,'pkrsrv_server_client']]],
   ['is_5fallin_7',['is_allin',['../group__poker.html#ab42515e37372bf5678779853b8c55bdd',1,'pkrsrv_poker_player']]],
   ['is_5falloc_5fstr_8',['is_alloc_str',['../group__string.html#a6acf9a5dba854c1e8100b7de625de8bd',1,'pkrsrv_string']]],

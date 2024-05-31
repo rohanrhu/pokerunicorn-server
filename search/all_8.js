@@ -5,7 +5,7 @@ var searchData=
   ['hand_5fpreflop_2',['hand_preflop',['../group__poker.html#a18c9e157397ac2dcee801e8e82eb8946',1,'pkrsrv_poker']]],
   ['hand_5friver_3',['hand_river',['../group__poker.html#a537bf0f00b70f470ea8dd708de02fcc0',1,'pkrsrv_poker']]],
   ['hand_5fturn_4',['hand_turn',['../group__poker.html#a6d6bf807604dca0b72ef28f50fbdcca0',1,'pkrsrv_poker']]],
-  ['handshake_5',['WebSocket Handshake',['../md_PROTOCOL.html#autotoc_md61',1,'']]],
+  ['handshake_5',['WebSocket Handshake',['../md_PROTOCOL.html#autotoc_md62',1,'']]],
   ['header_6',['Header',['../md_PROTOCOL.html#autotoc_md30',1,'']]],
   ['header0_5f16_7',['header0_16',['../group__websocket.html#a71b15a3fc0ee18f860a5a955cd9f0fac',1,'pkrsrv_websocket_header_t']]],
   ['height_8',['height',['../group__deposit.html#a2f4412161f9c7b500578217045dfbf15',1,'pkrsrv_deposit_monero_tx::height'],['../group__deposit.html#a3379b6ecae9db81cc4bb3a6b153478f4',1,'pkrsrv_deposit_monero_tx_new_params::height']]],
