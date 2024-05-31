@@ -133,7 +133,7 @@ enum PKRSRV_SERVER_OPCODE {
 
 Client must send MEOW packet after connection is established to start using the protocol.
 
-### Over Capacity
+#### Over Capacity
 
 Sent when server is over capacity. Client must disconnect and try again later.
 
