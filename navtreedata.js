@@ -37,9 +37,8 @@ var NAVTREE =
           [ "Header", "md_PROTOCOL.html#autotoc_md30", [
             [ "Opcodes", "md_PROTOCOL.html#autotoc_md31", null ]
           ] ],
-          [ "Meow", "md_PROTOCOL.html#autotoc_md32", null ]
-        ] ],
-        [ "Over Capacity", "md_PROTOCOL.html#autotoc_md33", [
+          [ "Meow", "md_PROTOCOL.html#autotoc_md32", null ],
+          [ "Over Capacity", "md_PROTOCOL.html#autotoc_md33", null ],
           [ "Signup", "md_PROTOCOL.html#autotoc_md34", null ],
           [ "Signup Response", "md_PROTOCOL.html#autotoc_md35", null ],
           [ "Login", "md_PROTOCOL.html#autotoc_md36", [
