@@ -90,7 +90,6 @@ pkrsrv_server_packet_frame_header {
 ##### Opcodes
 
 ```c
-typedef uint32_t pkrsrv_server_opcode_t;
 enum PKRSRV_SERVER_OPCODE {
     PKRSRV_SERVER_OPCODE_NOP = 0,
     PKRSRV_SERVER_OPCODE_MEOW,
@@ -100,6 +99,7 @@ enum PKRSRV_SERVER_OPCODE {
     PKRSRV_SERVER_OPCODE_LOGIN_RES,
     PKRSRV_SERVER_OPCODE_SIGNUP,
     PKRSRV_SERVER_OPCODE_SIGNUP_RES,
+    PKRSRV_SERVER_OPCODE_GET_ACCOUNT,
     PKRSRV_SERVER_OPCODE_ACCOUNT,
     PKRSRV_SERVER_OPCODE_ENTER,
     PKRSRV_SERVER_OPCODE_ENTER_RES,
@@ -124,13 +124,18 @@ enum PKRSRV_SERVER_OPCODE {
     PKRSRV_SERVER_OPCODE_UPDATE_ACCOUNT,
     PKRSRV_SERVER_OPCODE_UPDATE_ACCOUNT_RES,
     PKRSRV_SERVER_OPCODE_SERVER_INFO,
-    PKRSRV_SERVER_OPCODE_END // OPCODES terminator
+    PKRSRV_SERVER_OPCODE_OVER_CAPACITY,
+    PKRSRV_SERVER_OPCODE_END // Opcodes terminator
 };
 ```
 
 #### Meow
 
 Client must send MEOW packet after connection is established to start using the protocol.
+
+### Over Capacity
+
+Sent when server is over capacity. Client must disconnect and try again later.
 
 #### Signup
 
