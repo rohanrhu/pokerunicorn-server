@@ -48,7 +48,6 @@ pkrsrv_deposit_service_t* pkrsrv_deposit_service_new() {
     service->pg_conn = pkrsrv_db_connect(pkrsrv_postgres_host, pkrsrv_postgres_port, pkrsrv_postgres_username, pkrsrv_postgres_password, pkrsrv_postgres_db);
     if (!service->pg_conn) {
         printf("[Deposit] [Error] Failed to connect to the database for the new session!\n");
-        PQfinish(service->pg_conn);
         free(service);
         return NULL;
     }
@@ -57,7 +56,9 @@ pkrsrv_deposit_service_t* pkrsrv_deposit_service_new() {
 }
 
 void pkrsrv_deposit_service_free(pkrsrv_deposit_service_t* service) {
-    PQfinish(service->pg_conn);
+    if (service->pg_conn) {
+        PQfinish(service->pg_conn);
+    }
     free(service);
 }
 

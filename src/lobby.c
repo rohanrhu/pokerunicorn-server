@@ -1020,7 +1020,6 @@ pkrsrv_lobby_session_t* pkrsrv_lobby_session_new(pkrsrv_lobby_session_new_params
     session->pg_conn = pkrsrv_db_connect(pkrsrv_postgres_host, pkrsrv_postgres_port, pkrsrv_postgres_username, pkrsrv_postgres_password, pkrsrv_postgres_db);
     if (!session->pg_conn) {
         printf("[Error] Failed to connect to the database for the new session!\n");
-        PQfinish(session->pg_conn);
         free(session);
         return NULL;
     }
@@ -1052,7 +1051,9 @@ void pkrsrv_lobby_session_free(pkrsrv_lobby_session_t* session) {
 
     pthread_mutex_destroy(&session->mutex);
 
-    PQfinish(session->pg_conn);
+    if (session->pg_conn) {
+        PQfinish(session->pg_conn);
+    }
 
     LIST_FOREACH(session->clients, client)
         PKRSRV_REF_COUNTED_LEAVE(client);
