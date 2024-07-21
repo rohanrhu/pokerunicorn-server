@@ -53,8 +53,10 @@ pkrsrv_table_t* pkrsrv_table_get(PGconn* pg_conn, uint64_t p_id) {
     PGresult* query_result;
     ExecStatusType query_result_status;
 
-    uint32_t id_be = htonl((uint32_t) p_id);
-    const char* query_params[] = {(char *) &id_be};
+    char id_str[20];
+    int id_str_len = sprintf(id_str, "%llu", p_id);
+    
+    const char* query_params[] = {id_str};
 
     query_result = PQexecParams(
         pg_conn,
@@ -68,8 +70,8 @@ pkrsrv_table_t* pkrsrv_table_get(PGconn* pg_conn, uint64_t p_id) {
         sizeof(query_params) / sizeof(*query_params),
         NULL,
         query_params,
-        (int[]) {sizeof(id_be)},
-        (int[]) {1},
+        (int[]) {id_str_len},
+        (int[]) {0},
         0
     );
 
@@ -197,12 +199,13 @@ pkrsrv_table_list_t* pkrsrv_table_get_list(PGconn* pg_conn, pkrsrv_table_get_lis
     PGresult* query_result;
     ExecStatusType query_result_status;
 
-    uint32_t length_be = htonl((uint32_t) params.length);
-    uint32_t offset_be = htonl((uint32_t) params.offset);
-    const char* query_params[] = {
-        (char *) &length_be,
-        (char *) &offset_be
-    };
+    char length_str[20];
+    int length_str_len = sprintf(length_str, "%d", params.length);
+
+    char offset_str[20];
+    int offset_str_len = sprintf(offset_str, "%d", params.offset);
+
+    const char* query_params[] = {length_str, offset_str};
 
     query_result = PQexecParams(
         pg_conn,
@@ -216,8 +219,8 @@ pkrsrv_table_list_t* pkrsrv_table_get_list(PGconn* pg_conn, pkrsrv_table_get_lis
         sizeof(query_params) / sizeof(*query_params),
         NULL,
         query_params,
-        (int[]) {sizeof(length_be), sizeof(offset_be)},
-        (int[]) {1, 1},
+        (int[]) {length_str_len, offset_str_len},
+        (int[]) {0, 0},
         0
     );
 
@@ -337,12 +340,13 @@ void pkrsrv_table_set_players_num(PGconn* pg_conn, pkrsrv_table_t* table, int nu
     PGresult* query_result;
     ExecStatusType query_result_status;
 
-    uint32_t id_be = htonl((uint32_t) table->id.scalar);
-    uint32_t num_be = htonl((uint32_t) num);
-    const char* query_params[] = {
-        (char *) &id_be,
-        (char *) &num_be
-    };
+    char id_str[20];
+    int id_str_len = sprintf(id_str, "%llu", table->id.scalar);
+    
+    char num_str[20];
+    int num_str_len = sprintf(num_str, "%d", num);
+
+    const char* query_params[] = {id_str, num_str};
 
     query_result = PQexecParams(
         pg_conn,
@@ -354,8 +358,8 @@ void pkrsrv_table_set_players_num(PGconn* pg_conn, pkrsrv_table_t* table, int nu
         sizeof(query_params) / sizeof(*query_params),
         NULL,
         query_params,
-        (int[]) {sizeof(id_be), sizeof(num_be)},
-        (int[]) {1, 1},
+        (int[]) {id_str_len, num_str_len},
+        (int[]) {0, 0},
         0
     );
 
@@ -388,12 +392,13 @@ void pkrsrv_table_set_watchers_num(PGconn* pg_conn, pkrsrv_table_t* table, int n
     PGresult* query_result;
     ExecStatusType query_result_status;
 
-    uint32_t id_be = htonl((uint32_t) table->id.scalar);
-    uint32_t num_be = htonl((uint32_t) num);
-    const char* query_params[] = {
-        (char *) &id_be,
-        (char *) &num_be
-    };
+    char id_str[20];
+    int id_str_len = sprintf(id_str, "%llu", table->id.scalar);
+
+    char num_str[20];
+    int num_str_len = sprintf(num_str, "%d", num);
+    
+    const char* query_params[] = {id_str, num_str};
 
     query_result = PQexecParams(
         pg_conn,
@@ -405,8 +410,8 @@ void pkrsrv_table_set_watchers_num(PGconn* pg_conn, pkrsrv_table_t* table, int n
         sizeof(query_params) / sizeof(*query_params),
         NULL,
         query_params,
-        (int[]) {sizeof(id_be), sizeof(num_be)},
-        (int[]) {1, 1},
+        (int[]) {id_str_len, num_str_len},
+        (int[]) {0, 0},
         0
     );
 
@@ -439,12 +444,13 @@ void pkrsrv_table_incr_players_num(PGconn* pg_conn, pkrsrv_table_t* table, int b
     PGresult* query_result;
     ExecStatusType query_result_status;
 
-    uint32_t id_be = htonl((uint32_t) table->id.scalar);
-    uint32_t by_be = htonl((uint32_t) by);
-    const char* query_params[] = {
-        (char *) &id_be,
-        (char *) &by_be
-    };
+    char id_str[20];
+    int id_str_len = sprintf(id_str, "%llu", table->id.scalar);
+
+    char by_str[20];
+    int by_str_len = sprintf(by_str, "%d", by);
+    
+    const char* query_params[] = {id_str, by_str};
 
     query_result = PQexecParams(
         pg_conn,
@@ -456,8 +462,8 @@ void pkrsrv_table_incr_players_num(PGconn* pg_conn, pkrsrv_table_t* table, int b
         sizeof(query_params) / sizeof(*query_params),
         NULL,
         query_params,
-        (int[]) {sizeof(id_be), sizeof(by_be)},
-        (int[]) {1, 1},
+        (int[]) {id_str_len, by_str_len},
+        (int[]) {0, 0},
         0
     );
 
@@ -490,12 +496,13 @@ void pkrsrv_table_incr_watchers_num(PGconn* pg_conn, pkrsrv_table_t* table, int 
     PGresult* query_result;
     ExecStatusType query_result_status;
 
-    uint32_t id_be = htonl((uint32_t) table->id.scalar);
-    uint32_t by_be = htonl((uint32_t) by);
-    const char* query_params[] = {
-        (char *) &id_be,
-        (char *) &by_be
-    };
+    char id_str[20];
+    int id_str_len = sprintf(id_str, "%llu", table->id.scalar);
+
+    char by_str[20];
+    int by_str_len = sprintf(by_str, "%d", by);
+
+    const char* query_params[] = {id_str, by_str};
 
     query_result = PQexecParams(
         pg_conn,
@@ -507,8 +514,8 @@ void pkrsrv_table_incr_watchers_num(PGconn* pg_conn, pkrsrv_table_t* table, int 
         sizeof(query_params) / sizeof(*query_params),
         NULL,
         query_params,
-        (int[]) {sizeof(id_be), sizeof(by_be)},
-        (int[]) {1, 1},
+        (int[]) {id_str_len, by_str_len},
+        (int[]) {0, 0},
         0
     );
 

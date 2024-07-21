@@ -589,7 +589,8 @@ pkrsrv_account_update_result_t pkrsrv_account_update(PGconn* pg_conn, pkrsrv_acc
     result.is_ok = true;
     result.is_avatar_too_big = false;
 
-    uint32_t id_be = htonl((uint32_t) params.id);
+    char id_str[20];
+    int id_str_len = sprintf(id_str, "%llu", params.id);
 
     PGresult* query_result;
     ExecStatusType query_result_status;
@@ -597,7 +598,7 @@ pkrsrv_account_update_result_t pkrsrv_account_update(PGconn* pg_conn, pkrsrv_acc
     const char* query_params[] = {
         params.name->value,
         params.avatar->value,
-        (char *) &id_be
+        id_str
     };
     
     query_result = PQexecParams(
@@ -610,14 +611,14 @@ pkrsrv_account_update_result_t pkrsrv_account_update(PGconn* pg_conn, pkrsrv_acc
         sizeof(query_params) / sizeof(*query_params),
         NULL,
         query_params,
-        (int[]) {0, params.avatar->length, sizeof(id_be)},
-        (int[]) {0, 1, 1},
+        (int[]) {0, params.avatar->length, id_str_len},
+        (int[]) {0, 1, 0},
         0
     );
 
     query_result_status = PQresultStatus(query_result);
 
-    if (query_result_status != PGRES_COMMAND_OK) {
+     if (query_result_status != PGRES_COMMAND_OK) {
         PQclear(query_result);
         printf("[Error] [DB] Query failed!\n");
         printf("\tPostgreSQL Error: %s\n", PQresultErrorMessage(query_result));
