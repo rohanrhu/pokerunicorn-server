@@ -60,6 +60,7 @@ struct pkrsrv_lobby {
  * \brief Lobby sessions list structure
  */
 struct pkrsrv_lobby_sessions {
+    PKRSRV_REF_COUNTEDIFY();
     LISTIFY(pkrsrv_lobby_session_t*);
 };
 
