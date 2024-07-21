@@ -109,11 +109,11 @@ var NAVTREEINDEX =
 [
 "account_8h.html",
 "group__db.html#gad41ed7ce25704e80cf0ac1c5ae3de3ec",
-"group__lobby.html#ga91a490902036e138c33b4139e49723a6",
-"group__server.html#a053e37db0fa1873107e0faefc7c94198",
-"group__server.html#gacffc655f13bd77b828446511d53fa5e1",
-"group__util.html#ga4f7c87d5eb697abc72805d7fe2a17bed",
-"trie_8h.html"
+"group__lobby.html#ga8b101a21efde6525bb426d01737079c0",
+"group__server.html#a044e7662ffe76db7c21a064197fe77ee",
+"group__server.html#gace399e462b27f7744b55596745af76e3",
+"group__util.html",
+"topics.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
