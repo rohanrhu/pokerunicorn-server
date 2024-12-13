@@ -38,4 +38,4 @@ RUN echo "set auto-load safe-path /" > /root/.gdbinit
 
 WORKDIR /root/PokerServer
 
-CMD /root/gdb-frontend/gdbfrontend -w /root/PokerServer -l "$GDBFRONTEND_BIND_ADDRESS"
+CMD ["/root/gdb-frontend/gdbfrontend", "-w", "/root/PokerServer", "-l", "$GDBFRONTEND_BIND_ADDRESS"]
