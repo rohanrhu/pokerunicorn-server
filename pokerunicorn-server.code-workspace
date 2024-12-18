@@ -81,7 +81,8 @@
 			"compare": "c",
 			"utility": "c",
 			"span": "c",
-			"shared_mutex": "c"
+			"shared_mutex": "c",
+			"*.tcc": "c"
 		},
 		"lldb.showDisassembly": "auto",
 		"lldb.dereferencePointers": true,

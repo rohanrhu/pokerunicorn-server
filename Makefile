@@ -75,7 +75,8 @@ build/pkrsrv: src/pkrsrv.c \
 			  build/lobby.o \
 			  build/server.o \
 			  build/poker.o \
-			  build/player.o \
+			  build/account.o \
+			  build/auth.o \
 			  build/card.o \
 			  build/arg.o  \
 			  build/table.o \
@@ -119,7 +120,11 @@ build/poker.o: src/poker.c include/poker.h
 	mkdir -p build/
 	$(CC) -c -o $@ $(filter-out %.h, $^) $(CFLAGS)
 
-build/player.o: src/account.c include/account.h
+build/account.o: src/account.c include/account.h
+	mkdir -p build/
+	$(CC) -c -o $@ $(filter-out %.h, $^) $(CFLAGS)
+
+build/auth.o: src/auth.c include/auth.h
 	mkdir -p build/
 	$(CC) -c -o $@ $(filter-out %.h, $^) $(CFLAGS)
 

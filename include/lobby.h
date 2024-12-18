@@ -32,7 +32,18 @@
 #include "poker.h"
 #include "server.h"
 #include "eventloop.h"
+#include "trie.h"
+#include "auth.h"
 #include "../include/mime.h"
+
+/**
+ * \brief Lobby disconnection tolerance in milliseconds
+ * 
+ * If a client is disconnected from the lobby, it will be removed from the lobby after this time. Default is 20 seconds.
+ * 
+ * \note This avoids the client being removed from the lobby immediately after disconnection.
+ */
+#define PKRSRV_LOBBY_DISCONNECTION_TOLERANCE 20000
 
 typedef struct pkrsrv_lobby pkrsrv_lobby_t;
 typedef struct pkrsrv_lobby_sessions pkrsrv_lobby_sessions_t;
@@ -54,6 +65,7 @@ struct pkrsrv_lobby {
     int process_latency;
     pkrsrv_lobby_sessions_t* sessions;
     pkrsrv_eventloop_t* eventloop;
+    pkrsrv_trie__ascii_t* authorized_clients;
 };
 
 /**
@@ -119,7 +131,11 @@ struct pkrsrv_lobby_client_session {
  */
 struct pkrsrv_lobby_client_sessions {
     LISTIFY(pkrsrv_lobby_client_session_t*);
+    PKRSRV_REF_COUNTEDIFY();
 };
+
+pkrsrv_lobby_client_sessions_t *pkrsrv_lobby_client_sessions_new();
+void pkrsrv_lobby_client_sessions_free(pkrsrv_lobby_client_sessions_t *sessions);
 
 /**
  * \implements pkrsrv_ref_counted
@@ -131,6 +147,12 @@ struct pkrsrv_lobby_client {
     pkrsrv_server_client_t* client;
     pkrsrv_lobby_client_sessions_t* sessions;
     pkrsrv_account_t* account;
+    pkrsrv_auth_session_t* auth_session;
+    bool is_tolerant_disconnected;
+    bool is_disconnected;
+    bool is_connected;
+    bool is_revived;
+    pkrsrv_eventloop_task_t* tolerated_disconnected_task;
 };
 
 /**
@@ -187,6 +209,7 @@ void pkrsrv_lobby_client_free(pkrsrv_lobby_client_t* lobby_client);
  * \brief Parameters of `pkrsrv_lobby_session_new`
  */
 struct pkrsrv_lobby_session_new_params {
+    pkrsrv_auth_session_t* auth_session;
     pkrsrv_lobby_t* lobby;
     pkrsrv_table_t* table;
 };
@@ -386,9 +409,11 @@ pkrsrv_lobby_client_session_t* pkrsrv_lobby_client_session_getby_session_id(pkrs
 
 static void on_client_connected(pkrsrv_eventloop_task_t* task);
 static void on_client_disconnected(pkrsrv_eventloop_task_t* task);
+static void on_client_disconnected__tolerated(pkrsrv_eventloop_task_t* task);
 static void on_client_meowed(pkrsrv_eventloop_task_t* task);
 static void on_client_login(pkrsrv_eventloop_task_t* task);
 static void on_client_signup(pkrsrv_eventloop_task_t* task);
+static void on_client_auth_session(pkrsrv_eventloop_task_t* task);
 static void on_client_get_account(pkrsrv_eventloop_task_t* task);
 static void on_client_enter(pkrsrv_eventloop_task_t* task);
 static void on_client_leave(pkrsrv_eventloop_task_t* task);

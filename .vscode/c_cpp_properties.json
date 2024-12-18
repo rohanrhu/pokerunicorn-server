@@ -11,7 +11,11 @@
             "macFrameworkPath": [
                 "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks"
             ],
-            "intelliSenseMode": "macos-clang-arm64"
+            "intelliSenseMode": "macos-clang-arm64",
+            "cStandard": "c17",
+            "compilerArgs": [
+                "-Wall"
+            ]
         }
     ],
     "version": 4

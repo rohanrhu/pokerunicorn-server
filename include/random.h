@@ -8,5 +8,30 @@
 
 #pragma once
 
+#include "string.h"
+
+/**
+ * \defgroup random Chaos
+ * \brief RNG things.
+ */
+
+/**
+ * \addtogroup random
+ * \ingroup random
+ */
+
 int pkrsrv_random_range(int min, int max);
 void pkrsrv_random_bytes(unsigned char* array, int length);
+
+/**
+ * \brief Generates a random token.
+ * 
+ * Generates a portable random token.
+ * 
+ * \param length The length of the token.
+ */
+pkrsrv_string_t* pkrsrv_random_generate_token(int length);
+
+/**
+ * @}
+ */

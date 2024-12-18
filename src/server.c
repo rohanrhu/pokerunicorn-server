@@ -65,6 +65,8 @@ static opcode_handler_t OPCODE_HANDLERS[] = {
     opcode_handler_nop, // LOGIN_RES
     opcode_handler_signup,
     opcode_handler_nop, // SIGNUP_RES
+    opcode_handler_auth_session,
+    opcode_handler_nop, // AUTH_SESSION_RES
     opcode_handler_get_account,
     opcode_handler_nop, // ACCOUNT
     opcode_handler_enter,
@@ -261,6 +263,30 @@ static void opcode_handler_signup(pkrsrv_server_client_t* client, pkrsrv_server_
     task_params->signup = signup_packet;
     
     pkrsrv_eventloop_call(client->server->eventloop, client->server->on_client_signup, task_params);
+
+    RETURN:
+    return;
+}
+
+static void opcode_handler_auth_session(pkrsrv_server_client_t* client, pkrsrv_server_packet_frame_header_t req_header) {
+    ssize_t result;
+    pkrsrv_server_packet_frame_header_t header = {0};
+    
+    pkrsrv_server_packet_frame_auth_session_t auth_session;
+    READ_OR_CLOSE(pkrsrv_server_net_read, client, &auth_session, sizeof(pkrsrv_server_packet_frame_auth_session_t));
+
+    pkrsrv_string_t* token = pkrsrv_string_new__n(auth_session.token_length);
+    READ_OR_CLOSE(pkrsrv_server_net_read, client, token->value, auth_session.token_length);
+
+    pkrsrv_server_packet_auth_session_t auth_session_packet;
+    auth_session_packet.token = token;
+
+    on_client_auth_session_params_t* task_params = malloc(sizeof(on_client_auth_session_params_t));
+    task_params->owner = client->server->owner;
+    task_params->client = client;
+    task_params->auth_session = auth_session_packet;
+
+    pkrsrv_eventloop_call(client->server->eventloop, client->server->on_client_auth_session, task_params);
 
     RETURN:
     return;
@@ -573,6 +599,7 @@ bool pkrsrv_server_send_login_res(pkrsrv_server_send_login_res_params_t params) 
             length += params.account->name->length;
             length += params.account->avatar->length;
             length += params.account->xmr_deposit_address->length;
+            length += params.auth_session->token->length;
         }
         WRITE_OR_CLOSE(pkrsrv_websocket_send_header, &(client->websocket), client->ssl, length);
     }
@@ -585,6 +612,7 @@ bool pkrsrv_server_send_login_res(pkrsrv_server_send_login_res_params_t params) 
     pkrsrv_server_packet_frame_login_res_t login_res;
     login_res.is_ok = params.is_ok;
     login_res.is_logined = params.is_logined;
+    login_res.auth_token_length = params.auth_session ? params.auth_session->token->length: 0;
 
     WRITE_OR_CLOSE(pkrsrv_server_net_write, client, &login_res, sizeof(pkrsrv_server_packet_frame_login_res_t));
 
@@ -606,6 +634,10 @@ bool pkrsrv_server_send_login_res(pkrsrv_server_send_login_res_params_t params) 
         if (login_res_account.avatar_length) {
             WRITE_OR_CLOSE(pkrsrv_server_net_write, client, params.account->avatar->value, login_res_account.avatar_length);
         }
+    }
+
+    if (login_res.auth_token_length) {
+        WRITE_OR_CLOSE(pkrsrv_server_net_write, client, params.auth_session->token->value, login_res.auth_token_length);
     }
 
     RETURN:
@@ -642,6 +674,7 @@ bool pkrsrv_server_send_signup_res(pkrsrv_server_send_signup_res_params_t params
             length += params.account->name->length;
             length += params.account->avatar->length;
             length += params.account->xmr_deposit_address->length;
+            length += params.auth_session->token->length;
         }
         WRITE_OR_CLOSE(pkrsrv_websocket_send_header, &(client->websocket), client->ssl, length);
     }
@@ -655,6 +688,7 @@ bool pkrsrv_server_send_signup_res(pkrsrv_server_send_signup_res_params_t params
     signup_res.is_ok = params.is_ok;
     signup_res.is_logined = params.is_logined;
     signup_res.status = params.status;
+    signup_res.auth_token_length = params.auth_session ? params.auth_session->token->length: 0;
 
     WRITE_OR_CLOSE(pkrsrv_server_net_write, client, &signup_res, sizeof(pkrsrv_server_packet_frame_signup_res_t));
 
@@ -678,6 +712,10 @@ bool pkrsrv_server_send_signup_res(pkrsrv_server_send_signup_res_params_t params
         }
     }
 
+    if (signup_res.auth_token_length) {
+        WRITE_OR_CLOSE(pkrsrv_server_net_write, client, params.auth_session->token->value, signup_res.auth_token_length);
+    }
+
     RETURN:
 
     pthread_mutex_unlock(&(client->write_mutex));
@@ -685,6 +723,67 @@ bool pkrsrv_server_send_signup_res(pkrsrv_server_send_signup_res_params_t params
     if (params.account) {
         PKRSRV_REF_COUNTED_LEAVE(params.account);
     }
+
+    return retval;
+}
+
+bool pkrsrv_server_send_auth_session_res(pkrsrv_server_send_auth_session_res_params_t params) {
+    bool retval = true;
+    
+    pkrsrv_server_client_t* client = params.client;
+
+    pthread_mutex_lock(&(client->write_mutex));
+
+    pkrsrv_util_verbose("Sending Auth Session Res: (Client: %d)\n", client->socket);
+
+    if (client->is_websocket) {
+        ssize_t length = 0;
+        length += sizeof(pkrsrv_server_packet_frame_header_t);
+        length += sizeof(pkrsrv_server_packet_frame_auth_session_res_t);
+        if (params.is_ok && params.is_logined) {
+            length += sizeof(pkrsrv_server_packet_frame_auth_session_res_account_t);
+            length += params.account->id_token->length;
+            length += params.account->name->length;
+            length += params.account->avatar->length;
+            length += params.account->xmr_deposit_address->length;
+        }
+        WRITE_OR_CLOSE(pkrsrv_websocket_send_header, &(client->websocket), client->ssl, length);
+    }
+    
+    pkrsrv_server_packet_frame_header_t header = {0};
+    header.opcode = PKRSRV_SERVER_OPCODE_AUTH_SESSION_RES;
+
+    WRITE_OR_CLOSE(pkrsrv_server_net_write, client, &header, sizeof(pkrsrv_server_packet_frame_header_t));
+
+    pkrsrv_server_packet_frame_auth_session_res_t auth_session_res;
+    auth_session_res.is_ok = params.is_ok;
+    auth_session_res.is_logined = params.is_logined;
+
+    WRITE_OR_CLOSE(pkrsrv_server_net_write, client, &auth_session_res, sizeof(pkrsrv_server_packet_frame_auth_session_res_t));
+
+    if (params.is_ok && params.is_logined) {
+        pkrsrv_server_packet_frame_auth_session_res_account_t auth_session_res_account;
+        auth_session_res_account.id = params.account->id;
+        auth_session_res_account.id_token_length = params.account->id_token->length;
+        auth_session_res_account.name_length = params.account->name->length;
+        auth_session_res_account.avatar_length = params.account->avatar->length;
+        auth_session_res_account.balance = params.account->balance;
+        auth_session_res_account.xmr_deposit_address_length = params.account->xmr_deposit_address->length;
+
+        WRITE_OR_CLOSE(pkrsrv_server_net_write, client, &auth_session_res_account, sizeof(pkrsrv_server_packet_frame_auth_session_res_account_t));
+        WRITE_OR_CLOSE(pkrsrv_server_net_write, client, params.account->id_token->value, auth_session_res_account.id_token_length);
+        WRITE_OR_CLOSE(pkrsrv_server_net_write, client, params.account->name->value, auth_session_res_account.name_length);
+        if (auth_session_res_account.avatar_length) {
+            WRITE_OR_CLOSE(pkrsrv_server_net_write, client, params.account->avatar->value, auth_session_res_account.avatar_length);
+        }
+        if (auth_session_res_account.xmr_deposit_address_length) {
+            WRITE_OR_CLOSE(pkrsrv_server_net_write, client, params.account->xmr_deposit_address->value, auth_session_res_account.xmr_deposit_address_length);
+        }
+    }
+
+    RETURN:
+
+    pthread_mutex_unlock(&(client->write_mutex));
 
     return retval;
 }
@@ -1504,6 +1603,7 @@ pkrsrv_server_t* pkrsrv_server_new(pkrsrv_server_new_params_t params) {
     server->on_client_login = params.on_client_login;
     server->on_client_get_account = params.on_client_get_account;
     server->on_client_signup = params.on_client_signup;
+    server->on_client_auth_session = params.on_client_auth_session;
     server->on_client_action = params.on_client_action;
     server->on_client_get_tables = params.on_client_get_tables;
     server->on_client_get_sessions = params.on_client_get_sessions;

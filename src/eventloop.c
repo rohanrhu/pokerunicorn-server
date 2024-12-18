@@ -202,6 +202,7 @@ pkrsrv_eventloop_task_t* pkrsrv_eventloop_call_after(pkrsrv_eventloop_t* eventlo
     task->delay = delay;
 
     pthread_create(&task->delay_thread, NULL, (void*) &pkrsrv_eventloop_call_after_thread_f, task);
+    pthread_detach(task->delay_thread);
 
     return task;
 }
@@ -242,6 +243,7 @@ pkrsrv_eventloop_task_t* pkrsrv_eventloop_call_immediate_after(pkrsrv_eventloop_
     task->delay = delay;
 
     pthread_create(&task->delay_thread, NULL, (void*) &pkrsrv_eventloop_call_immediate_after_thread_f, task);
+    pthread_detach(task->delay_thread);
 
     return task;
 }
@@ -259,6 +261,7 @@ void pkrsrv_eventloop_task_call_after(pkrsrv_eventloop_t* eventloop, pkrsrv_even
     PKRSRV_REF_COUNTED_USE(task);
     task->delay = delay;
     pthread_create(&task->delay_thread, NULL, (void*) &pkrsrv_eventloop_call_after_thread_f, task);
+    pthread_detach(task->delay_thread);
 }
 
 void pkrsrv_eventloop_task_call_immediate(pkrsrv_eventloop_t* eventloop, pkrsrv_eventloop_task_t* task) {
@@ -274,6 +277,7 @@ void pkrsrv_eventloop_task_call_immediate_after(pkrsrv_eventloop_t* eventloop, p
     PKRSRV_REF_COUNTED_USE(task);
     task->delay = delay;
     pthread_create(&task->delay_thread, NULL, (void*) &pkrsrv_eventloop_call_immediate_after_thread_f, task);
+    pthread_detach(task->delay_thread);
 }
 
 void pkrsrv_eventloop_task_cancel(pkrsrv_eventloop_task_t* task) {

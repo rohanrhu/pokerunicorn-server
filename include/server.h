@@ -33,6 +33,7 @@
 #include "poker.h"
 #include "websocket.h"
 #include "eventloop.h"
+#include "auth.h"
 
 typedef struct pkrsrv_server_packet_frame_header pkrsrv_server_packet_frame_header_t;
 typedef struct pkrsrv_server_packet_frame_login pkrsrv_server_packet_frame_login_t;
@@ -41,6 +42,9 @@ typedef struct pkrsrv_server_packet_frame_login_res_account pkrsrv_server_packet
 typedef struct pkrsrv_server_packet_frame_signup pkrsrv_server_packet_frame_signup_t;
 typedef struct pkrsrv_server_packet_frame_signup_res pkrsrv_server_packet_frame_signup_res_t;
 typedef struct pkrsrv_server_packet_frame_signup_res_account pkrsrv_server_packet_frame_signup_res_account_t;
+typedef struct pkrsrv_server_packet_frame_auth_session pkrsrv_server_packet_frame_auth_session_t;
+typedef struct pkrsrv_server_packet_frame_auth_session_res pkrsrv_server_packet_frame_auth_session_res_t;
+typedef struct pkrsrv_server_packet_frame_auth_session_res_account pkrsrv_server_packet_frame_auth_session_res_account_t;
 typedef struct pkrsrv_server_packet_frame_account pkrsrv_server_packet_frame_account_t;
 typedef struct pkrsrv_server_packet_frame_enter pkrsrv_server_packet_frame_enter_t;
 typedef struct pkrsrv_server_packet_frame_enter_res pkrsrv_server_packet_frame_enter_res_t;
@@ -85,6 +89,8 @@ enum PKRSRV_SERVER_OPCODE {
     PKRSRV_SERVER_OPCODE_LOGIN_RES,
     PKRSRV_SERVER_OPCODE_SIGNUP,
     PKRSRV_SERVER_OPCODE_SIGNUP_RES,
+    PKRSRV_SERVER_OPCODE_AUTH_SESSION,
+    PKRSRV_SERVER_OPCODE_AUTH_SESSION_RES,
     PKRSRV_SERVER_OPCODE_GET_ACCOUNT,
     PKRSRV_SERVER_OPCODE_ACCOUNT,
     PKRSRV_SERVER_OPCODE_ENTER,
@@ -147,6 +153,7 @@ struct __attribute__((__packed__))
 pkrsrv_server_packet_frame_login_res {
     uint8_t is_ok;
     uint8_t is_logined;
+    uint16_t auth_token_length;
 };
 struct __attribute__((__packed__))
 pkrsrv_server_packet_frame_login_res_account {
@@ -177,6 +184,7 @@ pkrsrv_server_packet_frame_signup_res {
     uint8_t is_ok;
     uint8_t is_logined;
     uint16_t status;
+    uint16_t auth_token_length;
 };
 struct __attribute__((__packed__))
 pkrsrv_server_packet_frame_signup_res_account {
@@ -184,6 +192,31 @@ pkrsrv_server_packet_frame_signup_res_account {
     uint16_t name_length;
     uint32_t avatar_length;
     uint16_t xmr_deposit_address_length;
+    uint64_t id;
+    uint64_t balance;
+};
+
+/**
+ * * direction: CLIENT_TO_SERVER
+ */
+struct __attribute__((__packed__))
+pkrsrv_server_packet_frame_auth_session {
+    uint16_t token_length;
+};
+/**
+ * * direction: SERVER_TO_CLIENT
+ */
+struct __attribute__((__packed__))
+pkrsrv_server_packet_frame_auth_session_res {
+    uint8_t is_ok;
+    uint8_t is_logined;
+};
+struct __attribute__((__packed__))
+pkrsrv_server_packet_frame_auth_session_res_account {
+    uint16_t xmr_deposit_address_length;
+    uint16_t id_token_length;
+    uint16_t name_length;
+    uint32_t avatar_length;
     uint64_t id;
     uint64_t balance;
 };
@@ -486,6 +519,10 @@ typedef struct pkrsrv_server_packet_signup {
     pkrsrv_string_t* avatar;
 } pkrsrv_server_packet_signup_t;
 
+typedef struct pkrsrv_server_packet_auth_session {
+    pkrsrv_string_t* token;
+} pkrsrv_server_packet_auth_session_t;
+
 typedef struct pkrsrv_server_packet_enter {
     uint64_t table_id;
 } pkrsrv_server_packet_enter_t;
@@ -573,6 +610,11 @@ typedef struct on_client_signup_params {
     pkrsrv_server_client_t* client;
     pkrsrv_server_packet_signup_t signup;
 } on_client_signup_params_t;
+typedef struct on_client_auth_session_params {
+    void* owner;
+    pkrsrv_server_client_t* client;
+    pkrsrv_server_packet_auth_session_t auth_session;
+} on_client_auth_session_params_t;
 typedef struct on_client_get_account_params {
     void* owner;
     pkrsrv_server_client_t* client;
@@ -622,6 +664,7 @@ struct pkrsrv_server {
     void (*on_client_meowed)(pkrsrv_eventloop_task_t* task);
     void (*on_client_login)(pkrsrv_eventloop_task_t* task);
     void (*on_client_signup)(pkrsrv_eventloop_task_t* task);
+    void (*on_client_auth_session)(pkrsrv_eventloop_task_t* task);
     void (*on_client_get_account)(pkrsrv_eventloop_task_t* task);
     void (*on_client_enter)(pkrsrv_eventloop_task_t* task);
     void (*on_client_leave)(pkrsrv_eventloop_task_t* task);
@@ -682,6 +725,7 @@ struct pkrsrv_server_new_params {
     void (*on_client_meowed)(pkrsrv_eventloop_task_t* task);
     void (*on_client_login)(pkrsrv_eventloop_task_t* task);
     void (*on_client_signup)(pkrsrv_eventloop_task_t* task);
+    void (*on_client_auth_session)(pkrsrv_eventloop_task_t* task);
     void (*on_client_get_account)(pkrsrv_eventloop_task_t* task);
     void (*on_client_enter)(pkrsrv_eventloop_task_t* task);
     void (*on_client_leave)(pkrsrv_eventloop_task_t* task);
@@ -733,6 +777,7 @@ static void opcode_handler_meow(pkrsrv_server_client_t* client, pkrsrv_server_pa
 static void opcode_handler_ping(pkrsrv_server_client_t* client, pkrsrv_server_packet_frame_header_t req_header);
 static void opcode_handler_login(pkrsrv_server_client_t* client, pkrsrv_server_packet_frame_header_t req_header);
 static void opcode_handler_signup(pkrsrv_server_client_t* client, pkrsrv_server_packet_frame_header_t req_header);
+static void opcode_handler_auth_session(pkrsrv_server_client_t* client, pkrsrv_server_packet_frame_header_t req_header);
 static void opcode_handler_get_account(pkrsrv_server_client_t* client, pkrsrv_server_packet_frame_header_t req_header);
 static void opcode_handler_enter(pkrsrv_server_client_t* client, pkrsrv_server_packet_frame_header_t req_header);
 static void opcode_handler_leave(pkrsrv_server_client_t* client, pkrsrv_server_packet_frame_header_t req_header);
@@ -752,6 +797,7 @@ typedef struct {
     uint8_t is_ok;
     uint8_t is_logined;
     pkrsrv_account_t* account;
+    pkrsrv_auth_session_t* auth_session;
 } pkrsrv_server_send_login_res_params_t;
 bool pkrsrv_server_send_login_res(pkrsrv_server_send_login_res_params_t params);
 
@@ -761,8 +807,17 @@ typedef struct {
     uint8_t is_logined;
     uint16_t status;
     pkrsrv_account_t* account;
+    pkrsrv_auth_session_t* auth_session;
 } pkrsrv_server_send_signup_res_params_t;
 bool pkrsrv_server_send_signup_res(pkrsrv_server_send_signup_res_params_t params);
+
+typedef struct {
+    pkrsrv_server_client_t* client;
+    uint8_t is_ok;
+    uint8_t is_logined;
+    pkrsrv_account_t* account;
+} pkrsrv_server_send_auth_session_res_params_t;
+bool pkrsrv_server_send_auth_session_res(pkrsrv_server_send_auth_session_res_params_t params);
 
 typedef struct {
     pkrsrv_server_client_t* client;

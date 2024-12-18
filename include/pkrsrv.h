@@ -29,9 +29,9 @@
     #define PKRSRV_COMPILER_INFO "Unknown Compiler"
 #endif
 
-#define PKRSRV_VERSION {0, 10, 0}
+#define PKRSRV_VERSION {0, 11, 0}
 #define PKRSRV_VERSION_STABILITY "git"
-#define PKRSRV_VERSION_STRING "v0.10.0-git"
+#define PKRSRV_VERSION_STRING "v0.11.0-git"
 
 #ifndef PKRSRV_VERBOSE
 #define PKRSRV_VERBOSE 1
@@ -114,7 +114,7 @@
 #endif
 
 #ifndef PKRSRV_USE_REDIS
-#define PKRSRV_USE_REDIS 0
+#define PKRSRV_USE_REDIS 1
 #endif
 
 extern int __pkrsrv_version__[];

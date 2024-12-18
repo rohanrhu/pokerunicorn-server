@@ -6,17 +6,6 @@
  * See LICENSE for more info
  */
 
-/**
- * \defgroup random Chaos
- * \brief RNG things.
- */
-
-/**
- * \addtogroup random
- * \ingroup random
- * @{
- */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -25,8 +14,6 @@
 #include <fcntl.h>
 
 #include "../include/random.h"
-
-#include "../include/card.h"
 
 int pkrsrv_random_range(int min, int max) {
     unsigned int seed;
@@ -45,6 +32,14 @@ void pkrsrv_random_bytes(unsigned char* array, int length) {
     fclose(file);
 }
 
-/**
- * @}
- */
+pkrsrv_string_t* pkrsrv_random_generate_token(int length) {
+    pkrsrv_string_t* token = pkrsrv_string_new__n(length);
+    pkrsrv_random_bytes(token->value, length);
+    token->length = length;
+
+    for (int i = 0; i < length; i++) {
+        token->value[i] = 33 + (token->value[i] % 93);
+    }
+
+    return token;
+}

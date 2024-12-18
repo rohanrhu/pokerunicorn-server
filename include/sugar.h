@@ -119,7 +119,61 @@
     } \
 }
 
+#define DECL_LIST(list_name, item_name, members, list_new_body, item_new_body, list_free_body, item_free_body) \
+    typedef struct list_name { \
+        LISTIFY(item_name##_t*) \
+        REF_COUNTEDIFY() \
+    } list_name##_t; \
+    typedef struct item_name { \
+        ITEMIFY(item_name##_t*) \
+        REF_COUNTEDIFY() \
+        members \
+    } item_name##_t; \
+    list_name##_t* list_name##_new() { \
+        list_name##_t* list = malloc(sizeof(list_name##_t)); \
+        LIST_INIT(list); \
+        REF_COUNTED_INIT(list, list_name##_free); \
+        list_new_body \
+        return list; \
+    } \
+    item_name##_t* item_name##_new() { \
+        item_name##_t* item = malloc(sizeof(item_name##_t)); \
+        LIST_ITEM_INIT(item); \
+        REF_COUNTED_INIT(item, item_name##_free); \
+        item_new_body \
+        return item; \
+    } \
+    void list_name##_free(list_name##_t* list) { \
+        LIST_FOREACH(list, item) \
+            item_name##_free(item); \
+        END_FOREACH \
+        LIST_FOREACH(list, item) \
+            LEAVE(item); \
+        END_FOREACH \
+        list_free_body \
+        free(list); \
+    } \
+    void item_name##_free(item_name##_t* item) { \
+        item_free_body \
+        free(item); \
+    } \
+    void list_name##_append(list_name##_t* list, item_name##_t* item) { \
+        USE(item); \
+        LIST_APPEND(list, item); \
+    } \
+    void list_name##_remove(list_name##_t* list, item_name##_t* item) { \
+        LIST_REMOVE(list, item); \
+        LEAVE(item); \
+    }
+
 #define R(expr) PKRSRV_REF_BY(expr)
+
+#define REF_COUNTEDIFY() PKRSRV_REF_COUNTEDIFY();
+#define REF_COUNTED_INIT(obj, free_f) PKRSRV_REF_COUNTED_INIT(obj, free_f);
+#define USE(expr) PKRSRV_REF_COUNTED_USE(expr)
+#define LEAVE(expr) PKRSRV_REF_COUNTED_LEAVE(expr)
+
+#define $(expr) expr; USE(expr);
 
 /**
  * @}

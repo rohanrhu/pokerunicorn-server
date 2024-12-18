@@ -816,6 +816,87 @@ pkrsrv_account_t* pkrsrv_account_getby_id(PGconn* pg_conn, uint64_t p_id) {
     return account;
 }
 
+pkrsrv_account_t* pkrsrv_account_getby_id_token(PGconn* pg_conn, char* id_token) {
+    pkrsrv_account_t* account = NULL;
+
+    PGresult* query_result;
+    ExecStatusType query_result_status;
+
+    const char* query_params[] = {
+        id_token,
+    };
+
+    query_result = PQexecParams(
+        pg_conn,
+        "select "
+            PKRSRV_ACCOUNT_SELECT_COLUMNS
+        "from accounts "
+        "where "
+            " (id_token = $1) "
+        "limit 1",
+        sizeof(query_params) / sizeof(*query_params),
+        NULL,
+        query_params,
+        (int[]) {0},
+        (int[]) {0},
+        0
+    );
+
+    query_result_status = PQresultStatus(query_result);
+
+    if (query_result_status != PGRES_TUPLES_OK) {
+        printf("[Error] [DB] Query failed!\n");
+        printf("\tPostgreSQL Error: %s\n", PQresultErrorMessage(query_result));
+        
+        goto RETURN;
+    }
+
+    int rows_length = PQntuples(query_result);
+
+    if (!rows_length) {
+        goto RETURN;
+    }
+
+    char* id_str = PQgetvalue(query_result, 0, 0);
+    uint64_t id = atoi(id_str);
+
+    pkrsrv_string_t* id_token_str = pkrsrv_string_new_from_cstr__copy(PQgetvalue(query_result, 0, 1), PQgetlength(query_result, 0, 1));
+    pkrsrv_string_t* name = pkrsrv_string_new_from_cstr__copy(PQgetvalue(query_result, 0, 2), PQgetlength(query_result, 0, 2));
+    char* avatar_str = PQgetvalue(query_result, 0, 3);
+    size_t avatar_length = 0;
+    unsigned char* avatar_data = PQunescapeBytea((unsigned char *) avatar_str, &avatar_length);
+    pkrsrv_string_t* avatar = pkrsrv_string_new_from_binary__copy(avatar_data, avatar_length);
+    PQfreemem(avatar_data);
+    char* balance_str = PQgetvalue(query_result, 0, 4);
+    pkrsrv_string_t* xmr_deposit_address = pkrsrv_string_new_from_cstr__copy(PQgetvalue(query_result, 0, 5), PQgetlength(query_result, 0, 5));
+    char* locked_balance_str = PQgetvalue(query_result, 0, 6);
+    char* total_deposited_str = PQgetvalue(query_result, 0, 7);
+    char* xmr_index_str = PQgetvalue(query_result, 0, 8);
+    int xmr_index = atoi(xmr_index_str);
+    char* xmr_height_str = PQgetvalue(query_result, 0, 9);
+    uint64_t xmr_height = atoll(xmr_height_str);
+
+    pkrsrv_account_new_params_t new_params;
+    new_params.id = id;
+    new_params.id_token = id_token_str;
+    new_params.name = name;
+    new_params.avatar = avatar;
+    new_params.xmr_deposit_address = xmr_deposit_address;
+    new_params.xmr_deposit_address_index = xmr_index;
+    new_params.xmr_height = xmr_height;
+    new_params.balance = atoll(balance_str);
+    new_params.locked_balance = atoll(locked_balance_str);
+    new_params.total_deposited = atoll(total_deposited_str);
+
+    account = pkrsrv_account_new(new_params);
+
+    RETURN:
+
+    PQclear(query_result);
+
+    return account;
+}
+
 void pkrsrv_account_fetch(PGconn* pg_conn, pkrsrv_account_t* p_account) {
     pkrsrv_account_t* account = pkrsrv_account_getby_id(pg_conn, p_account->id);
     PKRSRV_UTIL_ASSERT(account);

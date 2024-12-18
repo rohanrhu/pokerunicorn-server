@@ -31,10 +31,11 @@ pkrsrv_string_t* pkrsrv_string_new__n(int length) {
     pkrsrv_string_t* string = malloc(sizeof(pkrsrv_string_t));
     PKRSRV_REF_COUNTED_INIT(string, pkrsrv_string_free);
     string->length = 0;
-    string->size = string->length + 1;
+    string->size = length + 1;
     string->is_alloc_str = true;
     string->is_binary = false;
     string->value = malloc(length+1);
+    string->value[0] = '\0';
     string->value[length] = '\0';
     
     return string;

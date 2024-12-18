@@ -127,6 +127,7 @@ typedef struct pkrsrv_account_getby_credentials_params {
 pkrsrv_account_t* pkrsrv_account_getby_credentials(PGconn* pg_conn, pkrsrv_account_getby_credentials_params_t params);
 
 pkrsrv_account_t* pkrsrv_account_getby_id(PGconn* pg_conn, uint64_t p_id);
+pkrsrv_account_t* pkrsrv_account_getby_id_token(PGconn* pg_conn, char* id_token);
 
 void pkrsrv_account_fetch(PGconn* pg_conn, pkrsrv_account_t* p_account);
 

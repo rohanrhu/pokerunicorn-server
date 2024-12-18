@@ -37,6 +37,8 @@
 #include "../include/sugar.h"
 #include "../include/string.h"
 #include "../include/deposit.h"
+#include "../include/trie.h"
+#include "../include/auth.h"
 
 void on_account_updated__async(pkrsrv_eventloop_task_t* task) {
     on_account_updated_params_t* task_params = (on_account_updated_params_t *) task->params;
@@ -95,6 +97,7 @@ pkrsrv_lobby_t* pkrsrv_lobby_new(pkrsrv_lobby_new_params_t params) {
         .on_client_unjoin = on_client_unjoin,
         .on_client_login = on_client_login,
         .on_client_signup = on_client_signup,
+        .on_client_auth_session = on_client_auth_session,
         .on_client_get_account = on_client_get_account,
         .on_client_action = on_client_action,
         .on_client_get_tables = on_client_get_tables,
@@ -104,6 +107,8 @@ pkrsrv_lobby_t* pkrsrv_lobby_new(pkrsrv_lobby_new_params_t params) {
     });
     
     PKRSRV_REF_COUNTED_USE(lobby->server);
+
+    lobby->authorized_clients = pkrsrv_trie_new__ascii();
 
     return lobby;
 }
@@ -118,6 +123,7 @@ void pkrsrv_lobby_free(pkrsrv_lobby_t* lobby) {
         pkrsrv_lobby_sessions_remove(session->lobby->sessions, session);
     END_FOREACH
 
+    pkrsrv_trie_free__ascii(lobby->authorized_clients);
     free(lobby->sessions);
     free(lobby);
 }
@@ -346,7 +352,8 @@ static void on_client_login(pkrsrv_eventloop_task_t* task) {
             .client = client,
             .is_ok = 1,
             .is_logined = 0,
-            .account = NULL
+            .account = NULL,
+            .auth_session = NULL
         });
 
         goto RETURN;
@@ -362,11 +369,14 @@ static void on_client_login(pkrsrv_eventloop_task_t* task) {
         .client = client,
         .is_ok = 1,
         .is_logined = 1,
-        .account = lobby_client->account
+        .account = lobby_client->account,
+        .auth_session = lobby_client->auth_session
     });
     if (!result) { 
         goto RETURN;
     }
+
+    pkrsrv_trie_set__ascii(lobby->authorized_clients, lobby_client->auth_session->token->value, (void *) lobby_client);
     
     LIST_FOREACH(lobby->sessions, session)
         pokers[session_i] = session->poker;
@@ -431,7 +441,8 @@ static void on_client_signup(pkrsrv_eventloop_task_t* task) {
             .is_ok = 0,
             .is_logined = 0,
             .account = NULL,
-            .status = signup_res_status
+            .status = signup_res_status,
+            .auth_session = NULL
         });
 
         goto RETURN;
@@ -443,28 +454,27 @@ static void on_client_signup(pkrsrv_eventloop_task_t* task) {
     
     pkrsrv_lobby_client_set_account(lobby_client, result.account);
 
-    bool is_logined = true;
+    pkrsrv_auth_session_t* auth_session = pkrsrv_auth_session_create(result.account);
 
     pkrsrv_server_send_signup_res((pkrsrv_server_send_signup_res_params_t) {
         .client = client,
         .is_ok = 1,
-        .is_logined = (uint8_t) is_logined,
+        .is_logined = 1,
         .account = lobby_client->account,
-        .status = signup_res_status
+        .status = signup_res_status,
+        .auth_session = auth_session
     });
 
-    if (is_logined) {
-        LIST_FOREACH(lobby->sessions, session)
-            pokers[session_i] = session->poker;
-        END_FOREACH
+    LIST_FOREACH(lobby->sessions, session)
+        pokers[session_i] = session->poker;
+    END_FOREACH
 
-        pkrsrv_server_send_sessions((pkrsrv_server_send_sessions_params_t) {
-            .client = client,
-            .offset = 0,
-            .pokers_length = lobby->sessions->length,
-            .pokers = pokers
-        });
-    }
+    pkrsrv_server_send_sessions((pkrsrv_server_send_sessions_params_t) {
+        .client = client,
+        .offset = 0,
+        .pokers_length = lobby->sessions->length,
+        .pokers = pokers
+    });
     
     RETURN:
 
@@ -472,6 +482,120 @@ static void on_client_signup(pkrsrv_eventloop_task_t* task) {
     PKRSRV_REF_COUNTED_LEAVE(signup.id_token);
     PKRSRV_REF_COUNTED_LEAVE(signup.password);
     PKRSRV_REF_COUNTED_LEAVE(signup.name);
+}
+
+static void on_client_auth_session(pkrsrv_eventloop_task_t* task) {
+    on_client_auth_session_params_t* task_params = (on_client_auth_session_params_t *) task->params;
+
+    void* owner = task_params->owner;
+    pkrsrv_server_client_t* client = task_params->client;
+    pkrsrv_server_packet_auth_session_t auth_session_packet = task_params->auth_session;
+
+    pkrsrv_lobby_t* lobby = (pkrsrv_lobby_t *) owner;
+
+    pkrsrv_poker_t* pokers[lobby->sessions->length];
+    memset(pokers, 0, sizeof(void*) * lobby->sessions->length);
+
+    pkrsrv_util_verbose("session.on_client_auth_session(%d)\n", client->socket);
+
+    pkrsrv_lobby_client_t* lobby_client = (pkrsrv_lobby_client_t *) client->owner;
+    
+    if (lobby_client->auth_session && !lobby_client->is_tolerant_disconnected) {
+        pkrsrv_server_send_auth_session_res((pkrsrv_server_send_auth_session_res_params_t) {
+            .client = client, 
+            .is_ok = 1,
+            .is_logined = 1,
+            .account = lobby_client->account
+        });
+        return;
+    }
+
+    pkrsrv_auth_session_t* auth_session = pkrsrv_auth_session_getby_token(client->pg_conn, auth_session_packet.token);
+    if (!auth_session) {
+        pkrsrv_server_send_auth_session_res((pkrsrv_server_send_auth_session_res_params_t) {
+            .client = client,
+            .is_ok = 1,
+            .is_logined = 0,
+            .account = NULL
+        });
+        return;
+    }
+    
+    lobby_client->auth_session = auth_session;
+    PKRSRV_REF_COUNTED_USE(lobby_client->auth_session);
+
+    pkrsrv_trie_node__ascii_t* node = pkrsrv_trie_get__ascii(lobby->authorized_clients, auth_session->token->value);
+    if (!node) {
+        pkrsrv_server_send_auth_session_res((pkrsrv_server_send_auth_session_res_params_t) {
+            .client = client,
+            .is_ok = 1,
+            .is_logined = 0,
+            .account = NULL
+        });
+        return;
+    }
+    pkrsrv_lobby_client_t* revived_client = (pkrsrv_lobby_client_t *) node->value;
+    if (!revived_client || (auth_session->account && (revived_client->account->id != auth_session->account->id))) {
+        pkrsrv_server_send_auth_session_res((pkrsrv_server_send_auth_session_res_params_t) {
+            .client = client,
+            .is_ok = 1,
+            .is_logined = 0,
+            .account = NULL
+        });
+        return;
+    }
+
+    pthread_mutex_lock(&lobby->server->mutex);
+
+    revived_client->is_revived = true;
+
+    LIST_FOREACH(revived_client->sessions, client_session)
+        LIST_FOREACH(client_session->session->clients, session_client)
+            if (!session_client->client->auth_session)
+                continue;
+            if (session_client->client->auth_session->token == auth_session->token)
+                session_client->client = lobby_client;
+        END_FOREACH
+    END_FOREACH
+
+    LEAVE(lobby_client->sessions);
+    lobby_client->sessions = $(revived_client->sessions);
+
+    pthread_mutex_unlock(&lobby->server->mutex);
+
+    pkrsrv_trie_set__ascii(lobby->authorized_clients, lobby_client->auth_session->token->value, (void *) lobby_client);
+
+    pkrsrv_account_t* account = auth_session->account;
+
+    account->owner = lobby;
+    account->on_updated = (void (*)(pkrsrv_account_t*, void*)) on_account_updated;
+    account->on_updated_param = lobby_client;
+
+    pkrsrv_lobby_client_set_account(lobby_client, account);
+
+    bool result = pkrsrv_server_send_auth_session_res((pkrsrv_server_send_auth_session_res_params_t) {
+        .client = client,
+        .is_ok = 1,
+        .is_logined = 1,
+        .account = lobby_client->account
+    });
+    if (!result) { 
+        goto RETURN;
+    }
+    
+    LIST_FOREACH(lobby->sessions, session)
+        pokers[session_i] = session->poker;
+    END_FOREACH
+
+    pkrsrv_server_send_sessions((pkrsrv_server_send_sessions_params_t) {
+        .client = client,
+        .offset = 0,
+        .pokers_length = lobby->sessions->length,
+        .pokers = pokers
+    });
+
+    RETURN:
+    return;
 }
 
 static void on_client_get_account(pkrsrv_eventloop_task_t* task) {
@@ -944,12 +1068,50 @@ static void on_client_disconnected(pkrsrv_eventloop_task_t* task) {
     pkrsrv_lobby_t* lobby = (pkrsrv_lobby_t *) owner;
     pkrsrv_lobby_client_t* lobby_client = (pkrsrv_lobby_client_t *) client->owner;
 
-    pkrsrv_util_verbose("Client#%d disconnected, leaving sessions:\n", client->socket);
+    lobby_client->is_tolerant_disconnected = true;
+    lobby_client->is_connected = false;
+    
+    printf("Client (Socket: %d) disconnected! Starting timer to perform disconnection... in %f seconds\n", client->socket, PKRSRV_LOBBY_DISCONNECTION_TOLERANCE / 1000.0);
 
-    LIST_FOREACH(lobby_client->sessions, to_leave)
-        pkrsrv_util_verbose("\tLeaving session(table#%llu)...\n", to_leave->session->poker->table->id.scalar);
-        pkrsrv_lobby_client_leave_session(lobby_client, to_leave);
-    END_FOREACH
+    if (lobby_client->tolerated_disconnected_task) {
+        pkrsrv_eventloop_task_cancel(lobby_client->tolerated_disconnected_task);
+    }
+    
+    on_client_disconnected_params_t* tolerated_task_params = malloc(sizeof(on_client_disconnected_params_t));
+    tolerated_task_params->owner = task_params->owner;
+    tolerated_task_params->client = task_params->client;
+    
+    lobby_client->tolerated_disconnected_task = pkrsrv_eventloop_task_new(lobby->eventloop, on_client_disconnected__tolerated, tolerated_task_params);
+    pkrsrv_eventloop_task_call_after(lobby->eventloop, lobby_client->tolerated_disconnected_task, PKRSRV_LOBBY_DISCONNECTION_TOLERANCE);
+}
+
+static void on_client_disconnected__tolerated(pkrsrv_eventloop_task_t* task) {
+    on_client_disconnected_params_t* task_params = (on_client_disconnected_params_t *) task->params;
+
+    void* owner = task_params->owner;
+    pkrsrv_server_client_t* client = task_params->client;
+
+    pkrsrv_lobby_t* lobby = (pkrsrv_lobby_t *) owner;
+    pkrsrv_lobby_client_t* lobby_client = (pkrsrv_lobby_client_t *) client->owner;
+
+    if (!lobby_client->is_tolerant_disconnected && !lobby_client->is_disconnected && lobby_client->is_connected) {
+        return;
+    }
+
+    lobby_client->is_disconnected = true;
+
+    if (lobby_client->auth_session && !lobby_client->is_revived) {
+        pkrsrv_trie_unset__ascii(lobby->authorized_clients, lobby_client->auth_session->token->value);
+    }
+
+    if (!lobby_client->is_revived) {
+        pkrsrv_util_verbose("Client#%d disconnected, leaving sessions:\n", client->socket);
+
+        LIST_FOREACH(lobby_client->sessions, to_leave)
+            pkrsrv_util_verbose("\tLeaving session(table#%llu)...\n", to_leave->session->poker->table->id.scalar);
+            pkrsrv_lobby_client_leave_session(lobby_client, to_leave);
+        END_FOREACH
+    }
 
     PKRSRV_REF_COUNTED_LEAVE(lobby_client);
 }
@@ -982,9 +1144,15 @@ pkrsrv_lobby_client_t* pkrsrv_lobby_client_new(pkrsrv_lobby_t* lobby, pkrsrv_ser
     lobby_client->lobby = lobby;
     lobby_client->client = client;
     lobby_client->account = NULL;
-    
-    lobby_client->sessions = malloc(sizeof(pkrsrv_lobby_client_sessions_t));
-    LIST_INIT(lobby_client->sessions);
+    lobby_client->is_tolerant_disconnected = false;
+    lobby_client->is_disconnected = false;
+    lobby_client->is_connected = true;
+    lobby_client->is_revived = false;
+    lobby_client->auth_session = NULL;
+    lobby_client->sessions = pkrsrv_lobby_client_sessions_new();
+    lobby_client->tolerated_disconnected_task = NULL;
+
+    PKRSRV_REF_COUNTED_USE(lobby_client->sessions);
 
     return lobby_client;
 }
@@ -996,18 +1164,21 @@ void pkrsrv_lobby_client_free(pkrsrv_lobby_client_t* lobby_client) {
         PKRSRV_REF_COUNTED_LEAVE(lobby_client->account);
     }
 
+    if (lobby_client->auth_session) {
+        PKRSRV_REF_COUNTED_LEAVE(lobby_client->auth_session);
+    }
+
     PKRSRV_REF_COUNTED_LEAVE(lobby_client->client);
+    PKRSRV_REF_COUNTED_LEAVE(lobby_client->sessions);
 
-    LIST_FOREACH(lobby_client->sessions, session)
-        pkrsrv_lobby_client_sessions_remove(lobby_client->sessions, session);
-    END_FOREACH
-
-    free(lobby_client->sessions);
     free(lobby_client);
 }
 
 void pkrsrv_lobby_client_set_account(pkrsrv_lobby_client_t* lobby_client, pkrsrv_account_t* account) {
     PKRSRV_REF_COUNTED_USE(account);
+
+    lobby_client->auth_session = pkrsrv_auth_session_create(account);
+    PKRSRV_REF_COUNTED_USE(lobby_client->auth_session);
     lobby_client->account = account;
 }
 
@@ -1119,6 +1290,21 @@ void pkrsrv_lobby_client_session_free(pkrsrv_lobby_client_session_t* client_sess
     pkrsrv_util_verbose("Freeing lobby client session object... (Session: %llu)\n", client_session->session->id.scalar);
     PKRSRV_REF_COUNTED_LEAVE(client_session->session);
     free(client_session);
+}
+
+pkrsrv_lobby_client_sessions_t* pkrsrv_lobby_client_sessions_new() {
+    pkrsrv_lobby_client_sessions_t* sessions = malloc(sizeof(pkrsrv_lobby_client_sessions_t));
+    REF_COUNTED_INIT(sessions, pkrsrv_lobby_client_sessions_free);
+    LIST_INIT(sessions);
+    return sessions;
+}
+
+void pkrsrv_lobby_client_sessions_free(pkrsrv_lobby_client_sessions_t* sessions) {
+    LIST_FOREACH(sessions, session)
+        PKRSRV_REF_COUNTED_LEAVE(session);
+    END_FOREACH
+
+    free(sessions);
 }
 
 void pkrsrv_lobby_client_sessions_add(pkrsrv_lobby_client_sessions_t* client_sessions, pkrsrv_lobby_client_session_t* client_session) {
@@ -1245,7 +1431,7 @@ bool pkrsrv_lobby_client_join_session(pkrsrv_lobby_client_t* lobby_client, pkrsr
 bool pkrsrv_lobby_client_unjoin_session(pkrsrv_lobby_client_t* lobby_client, pkrsrv_lobby_session_t* session) {
     bool retval = true;
     
-    pkrsrv_lobby_session_client_t* session_client = pkrsrv_lobby_session_client_getby_socket(session, lobby_client->client->socket);
+    pkrsrv_lobby_session_client_t* session_client = pkrsrv_lobby_session_client_getby_account_id(session, lobby_client->account->id);
 
     if (!session_client) {
         // ! Unexpected Behavior
@@ -1358,7 +1544,7 @@ bool pkrsrv_lobby_client_leave_session(pkrsrv_lobby_client_t* lobby_client, pkrs
         pkrsrv_lobby_client_unjoin_session(lobby_client, client_session->session);
     }
     
-    pkrsrv_lobby_session_client_t* session_client = pkrsrv_lobby_session_client_getby_socket(client_session->session, lobby_client->client->socket);
+    pkrsrv_lobby_session_client_t* session_client = pkrsrv_lobby_session_client_getby_account_id(client_session->session, lobby_client->account->id);
     PKRSRV_UTIL_ASSERT(session_client);
 
     PKRSRV_REF_COUNTED_USE(client_session);
