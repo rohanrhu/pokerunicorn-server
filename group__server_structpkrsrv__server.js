@@ -18,6 +18,7 @@ var group__server_structpkrsrv__server =
     [ "on_client_meowed", "group__server.html#a70012e10271a01751cb9ddc7f9b79a39", null ],
     [ "on_client_login", "group__server.html#afe73b794e1f45c32371dcb5933e0d69f", null ],
     [ "on_client_signup", "group__server.html#a4a667e0d09b474a9f7f01f3cd1f88e56", null ],
+    [ "on_client_auth_session", "group__server.html#a2787bf659edcba1cd5a3ca53132007e9", null ],
     [ "on_client_get_account", "group__server.html#a45bcb6d593d4242c6cf1740ba04a4e38", null ],
     [ "on_client_enter", "group__server.html#a91893f41e8e432542c0b21c17d6d3a86", null ],
     [ "on_client_leave", "group__server.html#aedea840f3f4d8032265b092e7fecc834", null ],

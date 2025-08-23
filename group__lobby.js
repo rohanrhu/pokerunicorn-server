@@ -6,9 +6,12 @@ var group__lobby =
       [ "mutex", "group__lobby.html#a2b31d75198e68f8b682a6c4d90ac7adf", null ],
       [ "process_latency", "group__lobby.html#ad29bc53c0fc4a1cdf382b7f18a30f275", null ],
       [ "sessions", "group__lobby.html#a486ba70ab97f21e855381fe81a81647c", null ],
-      [ "eventloop", "group__lobby.html#a8315bc530a0227ea47a91e5acdcdffa3", null ]
+      [ "eventloop", "group__lobby.html#a8315bc530a0227ea47a91e5acdcdffa3", null ],
+      [ "authorized_clients", "group__lobby.html#a6c7e45a45e752a280d9b0d242829527b", null ]
     ] ],
     [ "pkrsrv_lobby_sessions_t", "group__lobby.html#structpkrsrv__lobby__sessions", [
+      [ "pkrsrv_lobby_sessions_new", "group__lobby.html#ga6d6c604d358d9794c2a8ac21e6f454c3", null ],
+      [ "pkrsrv_lobby_sessions_free", "group__lobby.html#ga103dd5e6ef85cab920e7a4885af0ed7b", null ],
       [ "pkrsrv_lobby_sessions_add", "group__lobby.html#gad97ec74688302a19a98490613e153c85", null ],
       [ "pkrsrv_lobby_sessions_remove", "group__lobby.html#ga589399d85a561cb14067720c6b276522", null ],
       [ "ref_counted", "group__lobby.html#acffc0f0690452ff6bee13c47f76ef0cc", null ],
@@ -78,7 +81,8 @@ var group__lobby =
       [ "next", "group__lobby.html#a480cc9e34834b284feeee9c48473c7e1", null ],
       [ "prev", "group__lobby.html#ad4f6ce089c265971e0d2b4f090010963", null ],
       [ "terminal", "group__lobby.html#a84e95cabfebeb52f8da9f18af96ed81c", null ],
-      [ "length", "group__lobby.html#a29c31051e55a01183d83e7e7208e3b4e", null ]
+      [ "length", "group__lobby.html#a29c31051e55a01183d83e7e7208e3b4e", null ],
+      [ "ref_counted", "group__lobby.html#ae57005050c9fafba5931f587f78a5ba9", null ]
     ] ],
     [ "pkrsrv_lobby_client_t", "group__lobby.html#structpkrsrv__lobby__client", [
       [ "pkrsrv_lobby_client_enter_session", "group__lobby.html#ga7a653db08fc5607ec40500d0de849d3f", null ],
@@ -91,7 +95,13 @@ var group__lobby =
       [ "lobby", "group__lobby.html#a704d27f8b9532eb4ad32c24b4907164a", null ],
       [ "client", "group__lobby.html#af4fdcdcf2dbb6cccba6e662ae140d9fb", null ],
       [ "sessions", "group__lobby.html#a047e19d67ac2f3f65b0b013281fc4e14", null ],
-      [ "account", "group__lobby.html#a0385fc95d6f3fff297300aee9c94e744", null ]
+      [ "account", "group__lobby.html#a0385fc95d6f3fff297300aee9c94e744", null ],
+      [ "auth_session", "group__lobby.html#aaf54f939a1d96d3b781f5ed40fa153c3", null ],
+      [ "is_tolerant_disconnected", "group__lobby.html#a4ba3aa10e6a7ccdbdf103ff7bc67f527", null ],
+      [ "is_disconnected", "group__lobby.html#af9b2d595061bb51587ae6703a76f806c", null ],
+      [ "is_connected", "group__lobby.html#a78823a993b1d18df6dd0d774ae99640f", null ],
+      [ "is_revived", "group__lobby.html#a715202ce9bcd1ad51d245a5f3ad8cb12", null ],
+      [ "tolerated_disconnected_task", "group__lobby.html#aa2ceb9747212d59c1924feee580a5fe1", null ]
     ] ],
     [ "on_account_updated_params_t", "group__lobby.html#structon__account__updated__params", [
       [ "account", "group__lobby.html#a35d36494d43b27c03c14ac09b41f879f", null ],
@@ -104,6 +114,7 @@ var group__lobby =
       [ "max_clients", "group__lobby.html#a38f43d8ea69e50adb8cbcfcef6916d3f", null ]
     ] ],
     [ "pkrsrv_lobby_session_new_params_t", "group__lobby.html#structpkrsrv__lobby__session__new__params", [
+      [ "auth_session", "group__lobby.html#af95161af959b4f994e378d058d3f9195", null ],
       [ "lobby", "group__lobby.html#a3d11a00f3312489413a13d351e4efa85", null ],
       [ "table", "group__lobby.html#af0f21803bd9be7b98759da3aaa56aa99", null ]
     ] ],
@@ -116,6 +127,9 @@ var group__lobby =
     [ "pkrsrv_lobby_session_poker_restart__async_params_t", "group__lobby.html#structpkrsrv__lobby__session__poker__restart____async__params", [
       [ "session", "group__lobby.html#ad3b677cd8eea1523a5c4ed992d372723", null ]
     ] ],
+    [ "PKRSRV_LOBBY_DISCONNECTION_TOLERANCE", "group__lobby.html#ga846167cfdfd893ec64e56eda64b38eea", null ],
+    [ "pkrsrv_lobby_client_sessions_new", "group__lobby.html#ga73350b0118927a8773b5779bef904e88", null ],
+    [ "pkrsrv_lobby_client_sessions_free", "group__lobby.html#gaafa11e7577dcc4c7f5e45230492ced91", null ],
     [ "on_account_updated__async", "group__lobby.html#ga22f42b0b58c5f0de9e76991c8d060241", null ],
     [ "pkrsrv_lobby_new", "group__lobby.html#gad10656320394a900881313c952c4b356", null ],
     [ "pkrsrv_lobby_free", "group__lobby.html#ga1cbf13250d8c78c9acaee8d3fccafb53", null ],
@@ -125,6 +139,8 @@ var group__lobby =
     [ "pkrsrv_lobby_client_free", "group__lobby.html#ga7c08f9f1cb1b3907bff1c72b3799241a", null ],
     [ "reorder_updated_session", "group__lobby.html#ga91a490902036e138c33b4139e49723a6", null ],
     [ "pkrsrv_lobby_broadcast_sessions", "group__lobby.html#ga10b5036d20b037af37427e6b9721663e", null ],
+    [ "pkrsrv_lobby_sessions::pkrsrv_lobby_sessions_new", "group__lobby.html#ga6d6c604d358d9794c2a8ac21e6f454c3", null ],
+    [ "pkrsrv_lobby_sessions::pkrsrv_lobby_sessions_free", "group__lobby.html#ga103dd5e6ef85cab920e7a4885af0ed7b", null ],
     [ "pkrsrv_lobby_session::pkrsrv_lobby_session_new", "group__lobby.html#ga8b101a21efde6525bb426d01737079c0", null ],
     [ "pkrsrv_lobby_session::pkrsrv_lobby_session_free", "group__lobby.html#ga5f5427dfbd357951c90f1a5a32a238e3", null ],
     [ "pkrsrv_lobby_sessions::pkrsrv_lobby_sessions_add", "group__lobby.html#gad97ec74688302a19a98490613e153c85", null ],

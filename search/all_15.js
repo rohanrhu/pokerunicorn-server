@@ -9,7 +9,8 @@ var searchData=
   ['update_20account_6',['Update Account',['../md_PROTOCOL.html#autotoc_md39',1,'']]],
   ['update_20account_20response_7',['Update Account Response',['../md_PROTOCOL.html#autotoc_md40',1,'']]],
   ['update_5faccount_8',['update_account',['../group__server.html#a005bf3a29357e7f48e04053378af359c',1,'on_client_update_account_params_t']]],
-  ['using_20the_20gdbfrontend_20session_9',['Using the GDBFrontend session',['../index.html#autotoc_md11',1,'']]],
-  ['util_2eh_10',['util.h',['../util_8h.html',1,'']]],
-  ['utilities_11',['Utilities',['../group__util.html',1,'']]]
+  ['use_9',['USE',['../group__sugar.html#ga397246d5e85edcb28e5a18e433928172',1,'sugar.h']]],
+  ['using_20the_20gdbfrontend_20session_10',['Using the GDBFrontend session',['../index.html#autotoc_md11',1,'']]],
+  ['util_2eh_11',['util.h',['../util_8h.html',1,'']]],
+  ['utilities_12',['Utilities',['../group__util.html',1,'']]]
 ];

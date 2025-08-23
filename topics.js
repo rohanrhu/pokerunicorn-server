@@ -1,11 +1,13 @@
 var topics =
 [
     [ "Accounts", "group__account.html", "group__account" ],
+    [ "Authentication & Session", "group__auth.html", "group__auth" ],
     [ "Database", "group__db.html", "group__db" ],
     [ "Depositing", "group__deposit.html", "group__deposit" ],
     [ "Event Loop", "group__eventloop.html", "group__eventloop" ],
     [ "Lobby", "group__lobby.html", "group__lobby" ],
     [ "Texas Hold'em", "group__poker.html", "group__poker" ],
+    [ "Chaos", "group__random.html", null ],
     [ "Atomic Reference Counting", "group__ref.html", "group__ref" ],
     [ "Cryptography", "group__rsa.html", "group__rsa" ],
     [ "TCP & WebSocket Server (TLS)", "group__server.html", "group__server" ],

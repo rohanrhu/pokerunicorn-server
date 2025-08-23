@@ -2,6 +2,7 @@ var hierarchy =
 [
     [ "on_account_updated_params_t", "group__lobby.html#structon__account__updated__params", null ],
     [ "on_client_action_params_t", "group__server.html#structon__client__action__params__t", null ],
+    [ "on_client_auth_session_params_t", "group__server.html#structon__client__auth__session__params__t", null ],
     [ "on_client_connected_params_t", "group__server.html#structon__client__connected__params__t", null ],
     [ "on_client_disconnected_params_t", "group__server.html#structon__client__disconnected__params__t", null ],
     [ "on_client_enter_params_t", "group__server.html#structon__client__enter__params__t", null ],
@@ -56,6 +57,7 @@ var hierarchy =
     [ "pkrsrv_ref_counted_t", "group__ref.html#structpkrsrv__ref__counted", [
       [ "pkrsrv_account_t", "group__account.html#structpkrsrv__account", null ],
       [ "pkrsrv_account_iterator_t", "group__account.html#structpkrsrv__account__iterator__t", null ],
+      [ "pkrsrv_auth_session_t", "group__auth.html#structpkrsrv__auth__session", null ],
       [ "pkrsrv_deposit_monero_address_t", "group__deposit.html#structpkrsrv__deposit__monero__address", null ],
       [ "pkrsrv_deposit_monero_deposit_t", "group__deposit.html#structpkrsrv__deposit__monero__deposit", null ],
       [ "pkrsrv_deposit_monero_deposit_list_t", "group__deposit.html#structpkrsrv__deposit__monero__deposit__list", null ],
@@ -79,6 +81,7 @@ var hierarchy =
     [ "pkrsrv_ref_t", "ref_8h.html#structpkrsrv__ref", null ],
     [ "pkrsrv_server_clients_t", "group__server.html#structpkrsrv__server__clients", null ],
     [ "pkrsrv_server_new_params_t", "group__server.html#structpkrsrv__server__new__params", null ],
+    [ "pkrsrv_server_packet_auth_session_t", "group__server.html#structpkrsrv__server__packet__auth__session__t", null ],
     [ "pkrsrv_server_packet_enter_t", "group__server.html#structpkrsrv__server__packet__enter__t", null ],
     [ "pkrsrv_server_packet_get_sessions_t", "group__server.html#structpkrsrv__server__packet__get__sessions__t", null ],
     [ "pkrsrv_server_packet_get_tables_t", "group__server.html#structpkrsrv__server__packet__get__tables__t", null ],
@@ -91,6 +94,7 @@ var hierarchy =
     [ "pkrsrv_server_packet_unjoin_t", "group__server.html#structpkrsrv__server__packet__unjoin__t", null ],
     [ "pkrsrv_server_packet_update_account_t", "group__server.html#structpkrsrv__server__packet__update__account__t", null ],
     [ "pkrsrv_server_send_account_params_t", "group__server.html#structpkrsrv__server__send__account__params__t", null ],
+    [ "pkrsrv_server_send_auth_session_res_params_t", "group__server.html#structpkrsrv__server__send__auth__session__res__params__t", null ],
     [ "pkrsrv_server_send_enter_res_params_t", "group__server.html#structpkrsrv__server__send__enter__res__params__t", null ],
     [ "pkrsrv_server_send_join_res_params_t", "group__server.html#structpkrsrv__server__send__join__res__params__t", null ],
     [ "pkrsrv_server_send_json_params_t", "group__server.html#structpkrsrv__server__send__json__params__t", null ],

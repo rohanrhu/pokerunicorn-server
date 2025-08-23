@@ -13,5 +13,10 @@ var group__sugar =
     [ "LIST_PREPEND", "group__sugar.html#ga6621bd425a880447ed0bb08d71ba570d", null ],
     [ "LIST_REMOVE", "group__sugar.html#ga79ce04caa8d80540cc6b15b07ade4bb4", null ],
     [ "LIST_SORT", "group__sugar.html#gad24fe483fc533ee18da9bd8d612eab77", null ],
-    [ "R", "group__sugar.html#ga18e92a3d5f16925059f9917482fd00f0", null ]
+    [ "DECL_LIST", "group__sugar.html#ga58163fea7f0311f5f017859a5604036d", null ],
+    [ "R", "group__sugar.html#ga18e92a3d5f16925059f9917482fd00f0", null ],
+    [ "REF_COUNTEDIFY", "group__sugar.html#ga254e353bb0c141fba4c7106b7e1e67bd", null ],
+    [ "REF_COUNTED_INIT", "group__sugar.html#ga3050af352ab147fa956d0a6c0c5f5131", null ],
+    [ "USE", "group__sugar.html#ga397246d5e85edcb28e5a18e433928172", null ],
+    [ "LEAVE", "group__sugar.html#gaed5311e95efad9e48be8358134d21971", null ]
 ];

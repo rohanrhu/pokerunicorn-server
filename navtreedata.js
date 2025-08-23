@@ -108,13 +108,13 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "account_8h.html",
-"group__db.html#gad41ed7ce25704e80cf0ac1c5ae3de3ec",
-"group__lobby.html#ga8b101a21efde6525bb426d01737079c0",
-"group__server.html#a044e7662ffe76db7c21a064197fe77ee",
-"group__server.html#gace399e462b27f7744b55596745af76e3",
-"group__util.html",
-"topics.html"
+"group__auth.html#a6092f9554ab6322bbac4e1863303523b",
+"group__lobby.html#af4fdcdcf2dbb6cccba6e662ae140d9fb",
+"group__rsa.html#ga30be777cbe845f89a267ba03615cb249",
+"group__server.html#ga2a4b3f2a3294bccbc29f3f2b91e3a84c",
+"group__trie.html#a07b38484be96258eb12b59032866a797",
+"pkrsrv_8h.html#ac30dea1dfff5a25d42d0af14c7cf4c04"
 ];
 
-var SYNCONMSG = 'click to disable panel synchronisation';
-var SYNCOFFMSG = 'click to enable panel synchronisation';
+var SYNCONMSG = 'click to disable panel synchronization';
+var SYNCOFFMSG = 'click to enable panel synchronization';

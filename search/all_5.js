@@ -16,5 +16,6 @@ var searchData=
   ['event_20loop_13',['Event Loop',['../group__eventloop.html',1,'']]],
   ['eventloop_14',['eventloop',['../group__eventloop.html#ac2d77e0fbedd509d98a741369d10079b',1,'pkrsrv_eventloop_task::eventloop'],['../group__lobby.html#a8315bc530a0227ea47a91e5acdcdffa3',1,'pkrsrv_lobby::eventloop'],['../group__poker.html#acd322542c361b17987e5d608ec9b89f3',1,'pkrsrv_poker::eventloop'],['../group__poker.html#a6746a580a67c3f7cf9cd0f0397b133d8',1,'pkrsrv_poker_new_params_t::eventloop'],['../group__server.html#ac1e51e8dad2e4c07aaa0dd432e11969b',1,'pkrsrv_server::eventloop'],['../group__server.html#abeeecb9aff92ceed2f02c8fbea629386',1,'pkrsrv_server_new_params::eventloop']]],
   ['eventloop_2eh_15',['eventloop.h',['../eventloop_8h.html',1,'']]],
-  ['everything_20at_20once_16',['Running everything at once',['../index.html#autotoc_md8',1,'']]]
+  ['everything_20at_20once_16',['Running everything at once',['../index.html#autotoc_md8',1,'']]],
+  ['expr_17',['expr',['../sugar_8h.html#a6da3abf23cb39a5e696a5dc825b7ebeb',1,'sugar.h']]]
 ];

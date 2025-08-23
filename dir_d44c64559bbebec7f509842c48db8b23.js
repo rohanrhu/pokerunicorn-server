@@ -2,6 +2,7 @@ var dir_d44c64559bbebec7f509842c48db8b23 =
 [
     [ "account.h", "account_8h.html", "account_8h" ],
     [ "arg.h", "arg_8h.html", "arg_8h" ],
+    [ "auth.h", "auth_8h.html", "auth_8h" ],
     [ "card.h", "card_8h.html", "card_8h" ],
     [ "db.h", "db_8h.html", "db_8h" ],
     [ "deposit.h", "deposit_8h.html", "deposit_8h" ],

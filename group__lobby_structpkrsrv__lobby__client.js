@@ -10,5 +10,11 @@ var group__lobby_structpkrsrv__lobby__client =
     [ "lobby", "group__lobby.html#a704d27f8b9532eb4ad32c24b4907164a", null ],
     [ "client", "group__lobby.html#af4fdcdcf2dbb6cccba6e662ae140d9fb", null ],
     [ "sessions", "group__lobby.html#a047e19d67ac2f3f65b0b013281fc4e14", null ],
-    [ "account", "group__lobby.html#a0385fc95d6f3fff297300aee9c94e744", null ]
+    [ "account", "group__lobby.html#a0385fc95d6f3fff297300aee9c94e744", null ],
+    [ "auth_session", "group__lobby.html#aaf54f939a1d96d3b781f5ed40fa153c3", null ],
+    [ "is_tolerant_disconnected", "group__lobby.html#a4ba3aa10e6a7ccdbdf103ff7bc67f527", null ],
+    [ "is_disconnected", "group__lobby.html#af9b2d595061bb51587ae6703a76f806c", null ],
+    [ "is_connected", "group__lobby.html#a78823a993b1d18df6dd0d774ae99640f", null ],
+    [ "is_revived", "group__lobby.html#a715202ce9bcd1ad51d245a5f3ad8cb12", null ],
+    [ "tolerated_disconnected_task", "group__lobby.html#aa2ceb9747212d59c1924feee580a5fe1", null ]
 ];

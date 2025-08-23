@@ -22,9 +22,11 @@ var searchData=
   ['to_20do_20when_20contributing_20to_20the_20code_19',['Things to do when contributing to the code',['../index.html#autotoc_md15',1,'']]],
   ['to_20the_20code_20',['Things to do when contributing to the code',['../index.html#autotoc_md15',1,'']]],
   ['to_5faddress_21',['to_address',['../group__deposit.html#a7bb4ec055ef02e6bfbe026a9378d226e',1,'pkrsrv_deposit_monero_deposit::to_address'],['../group__deposit.html#a502c26310e520e1d0a652a0fffdcde60',1,'pkrsrv_deposit_monero_deposit_new_params_t::to_address'],['../group__deposit.html#adfdf013295d4a249ac6c602f6cdf9c4c',1,'pkrsrv_deposit_monero_deposit_create_params::to_address']]],
-  ['tostring_22',['TOSTRING',['../group__sugar.html#ga9063e80f8777300c93afde6e6f4c9cea',1,'sugar.h']]],
-  ['total_5fdeposited_23',['total_deposited',['../group__account.html#abe374ab195900d89ef21553bd3fb669a',1,'pkrsrv_account::total_deposited'],['../group__account.html#ac11da0cb594a9d78f908e9669fcd7048',1,'pkrsrv_account_new_params_t::total_deposited'],['../group__account.html#aa6b061a977633da7805c8fa3317e5dd6',1,'pkrsrv_account_create_params_t::total_deposited']]],
-  ['trie_2eh_24',['trie.h',['../trie_8h.html',1,'']]],
-  ['tries_25',['Tries',['../group__trie.html',1,'']]],
-  ['txid_26',['txid',['../group__deposit.html#a33d4491f4807528acf608bb9ab3c4cbd',1,'pkrsrv_deposit_monero_tx::txid'],['../group__deposit.html#a4e4b77265874c8bc88dbf562e5fbe39f',1,'pkrsrv_deposit_monero_tx_new_params::txid'],['../group__deposit.html#aa91820bf106a045763b70c391af7386e',1,'pkrsrv_deposit_monero_deposit::txid'],['../group__deposit.html#a169180bf93fc9ad81528cb18f9f4e5af',1,'pkrsrv_deposit_monero_deposit_new_params_t::txid'],['../group__deposit.html#ab8d3e64d8a3c825e4263335397fddb12',1,'pkrsrv_deposit_monero_deposit_create_params::txid']]]
+  ['token_22',['token',['../group__auth.html#a34c3f2de7189db6afea1f45af6be1e58',1,'pkrsrv_auth_session::token'],['../group__server.html#a931b94078f7712792b1a70464d1dc3a7',1,'pkrsrv_server_packet_auth_session_t::token']]],
+  ['tolerated_5fdisconnected_5ftask_23',['tolerated_disconnected_task',['../group__lobby.html#aa2ceb9747212d59c1924feee580a5fe1',1,'pkrsrv_lobby_client']]],
+  ['tostring_24',['TOSTRING',['../group__sugar.html#ga9063e80f8777300c93afde6e6f4c9cea',1,'sugar.h']]],
+  ['total_5fdeposited_25',['total_deposited',['../group__account.html#abe374ab195900d89ef21553bd3fb669a',1,'pkrsrv_account::total_deposited'],['../group__account.html#ac11da0cb594a9d78f908e9669fcd7048',1,'pkrsrv_account_new_params_t::total_deposited'],['../group__account.html#aa6b061a977633da7805c8fa3317e5dd6',1,'pkrsrv_account_create_params_t::total_deposited']]],
+  ['trie_2eh_26',['trie.h',['../trie_8h.html',1,'']]],
+  ['tries_27',['Tries',['../group__trie.html',1,'']]],
+  ['txid_28',['txid',['../group__deposit.html#a33d4491f4807528acf608bb9ab3c4cbd',1,'pkrsrv_deposit_monero_tx::txid'],['../group__deposit.html#a4e4b77265874c8bc88dbf562e5fbe39f',1,'pkrsrv_deposit_monero_tx_new_params::txid'],['../group__deposit.html#aa91820bf106a045763b70c391af7386e',1,'pkrsrv_deposit_monero_deposit::txid'],['../group__deposit.html#a169180bf93fc9ad81528cb18f9f4e5af',1,'pkrsrv_deposit_monero_deposit_new_params_t::txid'],['../group__deposit.html#ab8d3e64d8a3c825e4263335397fddb12',1,'pkrsrv_deposit_monero_deposit_create_params::txid']]]
 ];

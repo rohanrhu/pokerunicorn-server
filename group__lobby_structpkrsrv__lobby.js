@@ -5,5 +5,6 @@ var group__lobby_structpkrsrv__lobby =
     [ "mutex", "group__lobby.html#a2b31d75198e68f8b682a6c4d90ac7adf", null ],
     [ "process_latency", "group__lobby.html#ad29bc53c0fc4a1cdf382b7f18a30f275", null ],
     [ "sessions", "group__lobby.html#a486ba70ab97f21e855381fe81a81647c", null ],
-    [ "eventloop", "group__lobby.html#a8315bc530a0227ea47a91e5acdcdffa3", null ]
+    [ "eventloop", "group__lobby.html#a8315bc530a0227ea47a91e5acdcdffa3", null ],
+    [ "authorized_clients", "group__lobby.html#a6c7e45a45e752a280d9b0d242829527b", null ]
 ];

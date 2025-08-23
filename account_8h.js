@@ -19,6 +19,7 @@ var account_8h =
     [ "pkrsrv_account_update_xmr_height", "group__account.html#ga290cc26163efd1ec3be96e2487e52f3e", null ],
     [ "pkrsrv_account_getby_credentials", "group__account.html#ga0deb13241d099b3e8d1aad8a19af42ed", null ],
     [ "pkrsrv_account_getby_id", "group__account.html#ga78e99c0914b83cb8f0cbf32305ebc7fd", null ],
+    [ "pkrsrv_account_getby_id_token", "group__account.html#ga86b7aa802090c882ca17243c14d414c8", null ],
     [ "pkrsrv_account_fetch", "group__account.html#gaf23dda6f2974780f229c4d3e2b8bcf01", null ],
     [ "pkrsrv_account_iterator_new", "group__account.html#gab0a474ce131e8bc3a13aa5ae45cbd133", null ],
     [ "pkrsrv_account_iterator_free", "group__account.html#ga17eae499ada428c6e6f4ccd740e8516f", null ],

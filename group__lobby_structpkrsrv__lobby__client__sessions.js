@@ -5,5 +5,6 @@ var group__lobby_structpkrsrv__lobby__client__sessions =
     [ "next", "group__lobby.html#a480cc9e34834b284feeee9c48473c7e1", null ],
     [ "prev", "group__lobby.html#ad4f6ce089c265971e0d2b4f090010963", null ],
     [ "terminal", "group__lobby.html#a84e95cabfebeb52f8da9f18af96ed81c", null ],
-    [ "length", "group__lobby.html#a29c31051e55a01183d83e7e7208e3b4e", null ]
+    [ "length", "group__lobby.html#a29c31051e55a01183d83e7e7208e3b4e", null ],
+    [ "ref_counted", "group__lobby.html#ae57005050c9fafba5931f587f78a5ba9", null ]
 ];
