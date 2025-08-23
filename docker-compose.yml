@@ -4,6 +4,7 @@ services:
     build: .
     restart: always
     user: "0:0"
+    init: true
     ports:
       - "5550-5560:5550-5560"
     volumes:
@@ -18,7 +19,7 @@ services:
         aliases:
           - gdbfrontend
     environment:
-      GDBFRONTEND_BIND_ADDRESS: ${PKRSRV_GDBFRONTEND_BIND_ADDRESS}
+      PKRSRV_GDBFRONTEND_BIND_ADDRESS: ${PKRSRV_GDBFRONTEND_BIND_ADDRESS}
       PKRSRV_SSL_KEY_PATH: ${PKRSRV_SSL_KEY_PATH}
       PKRSRV_SSL_CER_PATH: ${PKRSRV_SSL_CER_PATH}
   redis:
