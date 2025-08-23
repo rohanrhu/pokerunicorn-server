@@ -77,6 +77,17 @@ struct pkrsrv_lobby_sessions {
 };
 
 /**
+ * \memberof pkrsrv_lobby_sessions
+ * \brief Creates a new lobby sessions list
+ */
+pkrsrv_lobby_sessions_t* pkrsrv_lobby_sessions_new();
+/**
+ * \memberof pkrsrv_lobby_sessions
+ * \brief Frees the lobby sessions list (stops & releases all sessions)
+ */
+void pkrsrv_lobby_sessions_free(pkrsrv_lobby_sessions_t* sessions);
+
+/**
  * \implements pkrsrv_ref_counted
  * \brief Session object
  */
