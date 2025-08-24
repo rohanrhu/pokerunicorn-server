@@ -12,8 +12,10 @@
 #include <time.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <string.h>
 
 #include "../include/random.h"
+#include "../include/util.h"
 
 int pkrsrv_random_range(int min, int max) {
     unsigned int seed;
@@ -33,13 +35,19 @@ void pkrsrv_random_bytes(unsigned char* array, int length) {
 }
 
 pkrsrv_string_t* pkrsrv_random_generate_token(int length) {
-    pkrsrv_string_t* token = pkrsrv_string_new__n(length);
-    pkrsrv_random_bytes(token->value, length);
-    token->length = length;
-
-    for (int i = 0; i < length; i++) {
-        token->value[i] = 33 + (token->value[i] % 93);
-    }
+    unsigned char* random_bytes = malloc(length);
+    pkrsrv_random_bytes(random_bytes, length);
+    
+    unsigned char* encoded = pkrsrv_util_base64_encode(random_bytes, length);
+    int encoded_length = strlen((char *) encoded);
+    
+    pkrsrv_string_t* token = pkrsrv_string_new__n(encoded_length);
+    memcpy(token->value, encoded, encoded_length);
+    token->length = encoded_length;
+    token->value[encoded_length] = '\0';
+    
+    free(random_bytes);
+    free(encoded);
 
     return token;
 }
