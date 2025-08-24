@@ -23,6 +23,7 @@ var websocket_8h =
     [ "__attribute__", "group__websocket.html#ga3d7e9860438e08f764f33a3f79f6e843", null ],
     [ "pkrsrv_websocket_generate_ws_accept_key", "group__websocket.html#ga82fffe2c5a9e56550820ae946db50567", null ],
     [ "pkrsrv_websocket_init", "group__websocket.html#gab4e528c7e9909068a2350f00234ea28a", null ],
+    [ "pkrsrv_websocket_cleanup", "group__websocket.html#ga76f0dd26e8ab4ec3db457a03343ca384", null ],
     [ "pkrsrv_websocket_read_http_header", "group__websocket.html#gadedbfb5391a52ce3ccc858679b2967a1", null ],
     [ "pkrsrv_websocket_read_header", "group__websocket.html#gad5e648a6a8b796bbbf10fbf681e28f56", null ],
     [ "pkrsrv_websocket_read_payload", "group__websocket.html#ga634de1c7ea01451220b6a7d8c42ea822", null ],

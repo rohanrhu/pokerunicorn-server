@@ -324,12 +324,13 @@ var searchData=
   ['pkrsrv_5futil_5fmsleep_321',['pkrsrv_util_msleep',['../group__util.html#ga505ab0b9085706b36686a5dc91b65093',1,'util.h']]],
   ['pkrsrv_5futil_5fverbose_322',['pkrsrv_util_verbose',['../group__util.html#ga75b1cdeb15d315d6fc5eb1675240371b',1,'util.h']]],
   ['pkrsrv_5futil_5fverbose_5fset_323',['pkrsrv_util_verbose_set',['../group__util.html#gab4189774c26807486ee7fa5a1038cc6d',1,'util.h']]],
-  ['pkrsrv_5fwebsocket_5ffragmented_5fbegin_324',['pkrsrv_websocket_fragmented_begin',['../group__websocket.html#ga96d620dbf4234161d2e16e196830a7dd',1,'websocket.h']]],
-  ['pkrsrv_5fwebsocket_5ffragmented_5fput_325',['pkrsrv_websocket_fragmented_put',['../group__websocket.html#gada9f02c16bb7b7e8ee153fa35b3bcd33',1,'websocket.h']]],
-  ['pkrsrv_5fwebsocket_5fgenerate_5fws_5faccept_5fkey_326',['pkrsrv_websocket_generate_ws_accept_key',['../group__websocket.html#ga82fffe2c5a9e56550820ae946db50567',1,'websocket.h']]],
-  ['pkrsrv_5fwebsocket_5finit_327',['pkrsrv_websocket_init',['../group__websocket.html#gab4e528c7e9909068a2350f00234ea28a',1,'websocket.h']]],
-  ['pkrsrv_5fwebsocket_5fread_5fheader_328',['pkrsrv_websocket_read_header',['../group__websocket.html#gad5e648a6a8b796bbbf10fbf681e28f56',1,'websocket.h']]],
-  ['pkrsrv_5fwebsocket_5fread_5fhttp_5fheader_329',['pkrsrv_websocket_read_http_header',['../group__websocket.html#gadedbfb5391a52ce3ccc858679b2967a1',1,'websocket.h']]],
-  ['pkrsrv_5fwebsocket_5fread_5fpayload_330',['pkrsrv_websocket_read_payload',['../group__websocket.html#ga634de1c7ea01451220b6a7d8c42ea822',1,'websocket.h']]],
-  ['pkrsrv_5fwebsocket_5fsend_5fheader_331',['pkrsrv_websocket_send_header',['../group__websocket.html#gad52de879d5fd46ff516b1966d9ad977b',1,'websocket.h']]]
+  ['pkrsrv_5fwebsocket_5fcleanup_324',['pkrsrv_websocket_cleanup',['../group__websocket.html#ga76f0dd26e8ab4ec3db457a03343ca384',1,'websocket.h']]],
+  ['pkrsrv_5fwebsocket_5ffragmented_5fbegin_325',['pkrsrv_websocket_fragmented_begin',['../group__websocket.html#ga96d620dbf4234161d2e16e196830a7dd',1,'websocket.h']]],
+  ['pkrsrv_5fwebsocket_5ffragmented_5fput_326',['pkrsrv_websocket_fragmented_put',['../group__websocket.html#gada9f02c16bb7b7e8ee153fa35b3bcd33',1,'websocket.h']]],
+  ['pkrsrv_5fwebsocket_5fgenerate_5fws_5faccept_5fkey_327',['pkrsrv_websocket_generate_ws_accept_key',['../group__websocket.html#ga82fffe2c5a9e56550820ae946db50567',1,'websocket.h']]],
+  ['pkrsrv_5fwebsocket_5finit_328',['pkrsrv_websocket_init',['../group__websocket.html#gab4e528c7e9909068a2350f00234ea28a',1,'websocket.h']]],
+  ['pkrsrv_5fwebsocket_5fread_5fheader_329',['pkrsrv_websocket_read_header',['../group__websocket.html#gad5e648a6a8b796bbbf10fbf681e28f56',1,'websocket.h']]],
+  ['pkrsrv_5fwebsocket_5fread_5fhttp_5fheader_330',['pkrsrv_websocket_read_http_header',['../group__websocket.html#gadedbfb5391a52ce3ccc858679b2967a1',1,'websocket.h']]],
+  ['pkrsrv_5fwebsocket_5fread_5fpayload_331',['pkrsrv_websocket_read_payload',['../group__websocket.html#ga634de1c7ea01451220b6a7d8c42ea822',1,'websocket.h']]],
+  ['pkrsrv_5fwebsocket_5fsend_5fheader_332',['pkrsrv_websocket_send_header',['../group__websocket.html#gad52de879d5fd46ff516b1966d9ad977b',1,'websocket.h']]]
 ];
