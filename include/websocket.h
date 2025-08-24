@@ -104,6 +104,7 @@ typedef struct pkrsrv_websocket {
 
 extern char* pkrsrv_websocket_generate_ws_accept_key(char* websocket_key);
 extern void pkrsrv_websocket_init(pkrsrv_websocket_t* ws);
+extern void pkrsrv_websocket_cleanup(pkrsrv_websocket_t* ws);
 extern ssize_t pkrsrv_websocket_read_http_header(pkrsrv_websocket_t* ws, SSL* ssl);
 extern ssize_t pkrsrv_websocket_read_header(pkrsrv_websocket_t* ws, SSL* ssl);
 extern ssize_t pkrsrv_websocket_read_payload(pkrsrv_websocket_t* ws, SSL* ssl, void* buffer, ssize_t size);

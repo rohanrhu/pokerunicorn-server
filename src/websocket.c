@@ -41,6 +41,16 @@ int64_t pkrsrv_websocket_ntohll(int64_t x) {
     return ((int64_t) ntohl((x) & 0xFFFFFFFF) << 32) | ntohl((x) >> 32);
 }
 
+static void pkrsrv_websocket_reset_fragmentation(pkrsrv_websocket_t* ws) {
+    if (ws->buffer) {
+        free(ws->buffer);
+        ws->buffer = NULL;
+    }
+    ws->is_fragmented = false;
+    ws->buffer_length = 0;
+    ws->buffer_readed = 0;
+}
+
 char* pkrsrv_websocket_generate_ws_accept_key(char* websocket_key) {
     int combined_length = strlen(websocket_key) + strlen(PKRSRV_WEBSOCKET_GUID);
     char* combined = malloc(combined_length + 1);
@@ -235,6 +245,7 @@ extern ssize_t pkrsrv_websocket_read_header(pkrsrv_websocket_t* ws, SSL* ssl) {
     opcode = header0_16[0] & 0b00001111;
 
     if (opcode == 8) {
+        pkrsrv_websocket_reset_fragmentation(ws);
         return 0;
     }
 
@@ -266,8 +277,26 @@ extern ssize_t pkrsrv_websocket_read_header(pkrsrv_websocket_t* ws, SSL* ssl) {
     }
 
     if ((opcode == 9) || (opcode == 10)) {
+        if (!fin) {
+            if (ws->buffer) {
+                free(ws->buffer);
+                ws->buffer = NULL;
+                ws->is_fragmented = false;
+                ws->buffer_length = 0;
+                ws->buffer_readed = 0;
+            }
+            return 0;
+        }
+        
         unsigned char* payload = malloc(plen);
         if (!payload) {
+            if (ws->buffer) {
+                free(ws->buffer);
+                ws->buffer = NULL;
+                ws->is_fragmented = false;
+                ws->buffer_length = 0;
+                ws->buffer_readed = 0;
+            }
             return 0;
         }
 
@@ -277,6 +306,9 @@ extern ssize_t pkrsrv_websocket_read_header(pkrsrv_websocket_t* ws, SSL* ssl) {
             if (ws->buffer) {
                 free(ws->buffer);
                 ws->buffer = NULL;
+                ws->is_fragmented = false;
+                ws->buffer_length = 0;
+                ws->buffer_readed = 0;
             }
             return 0;
         }
@@ -300,6 +332,9 @@ extern ssize_t pkrsrv_websocket_read_header(pkrsrv_websocket_t* ws, SSL* ssl) {
                 if (ws->buffer) {
                     free(ws->buffer);
                     ws->buffer = NULL;
+                    ws->is_fragmented = false;
+                    ws->buffer_length = 0;
+                    ws->buffer_readed = 0;
                 }
                 pthread_mutex_unlock(ws->write_mutex);
                 return 0;
@@ -312,6 +347,9 @@ extern ssize_t pkrsrv_websocket_read_header(pkrsrv_websocket_t* ws, SSL* ssl) {
                     if (ws->buffer) {
                         free(ws->buffer);
                         ws->buffer = NULL;
+                        ws->is_fragmented = false;
+                        ws->buffer_length = 0;
+                        ws->buffer_readed = 0;
                     }
                     pthread_mutex_unlock(ws->write_mutex);
                     return 0;
@@ -327,9 +365,14 @@ extern ssize_t pkrsrv_websocket_read_header(pkrsrv_websocket_t* ws, SSL* ssl) {
     }
 
     if (!fin && !ws->is_fragmented) {
+        if (opcode < 1 || opcode > 2) {
+            return 0;
+        }
+        
         ws->is_fragmented = true;
         ws->buffer = malloc(plen);
         if (!ws->buffer) {
+            ws->is_fragmented = false;
             return 0;
         }
         ws->buffer_length = plen;
@@ -339,6 +382,9 @@ extern ssize_t pkrsrv_websocket_read_header(pkrsrv_websocket_t* ws, SSL* ssl) {
         if (!payload_result) {
             free(ws->buffer);
             ws->buffer = NULL;
+            ws->is_fragmented = false;
+            ws->buffer_length = 0;
+            ws->buffer_readed = 0;
             return 0;
         }
 
@@ -350,10 +396,22 @@ extern ssize_t pkrsrv_websocket_read_header(pkrsrv_websocket_t* ws, SSL* ssl) {
 
         goto READ_FRAME;
     } else if (ws->is_fragmented) {
+        if (opcode != 0) {
+            free(ws->buffer);
+            ws->buffer = NULL;
+            ws->is_fragmented = false;
+            ws->buffer_length = 0;
+            ws->buffer_readed = 0;
+            return 0;
+        }
+        
         uint8_t* extended_buffer = realloc(ws->buffer, ws->buffer_length + plen);
         if (!extended_buffer) {
             free(ws->buffer);
             ws->buffer = NULL;
+            ws->is_fragmented = false;
+            ws->buffer_length = 0;
+            ws->buffer_readed = 0;
             return 0;
         }
         ws->buffer = extended_buffer;
@@ -362,16 +420,19 @@ extern ssize_t pkrsrv_websocket_read_header(pkrsrv_websocket_t* ws, SSL* ssl) {
         if (!payload_result) {
             free(ws->buffer);
             ws->buffer = NULL;
+            ws->is_fragmented = false;
+            ws->buffer_length = 0;
+            ws->buffer_readed = 0;
             return 0;
         }
 
-        ws->buffer_length += plen;
-
         if (is_masked) {
             for (int i=0; i < plen; i++) {
-                ws->buffer[(ws->buffer_length - plen) + i] = ws->buffer[(ws->buffer_length - plen) + i] ^ mkey[i % 4];
+                ws->buffer[(ws->buffer_length) + i] = ws->buffer[(ws->buffer_length) + i] ^ mkey[i % 4];
             }
         }
+        
+        ws->buffer_length += plen;
 
         if (!fin) {
             goto READ_FRAME;
@@ -400,10 +461,20 @@ extern ssize_t pkrsrv_websocket_read_header(pkrsrv_websocket_t* ws, SSL* ssl) {
 extern ssize_t pkrsrv_websocket_read_payload(pkrsrv_websocket_t* ws, SSL* ssl, void* p_buffer, ssize_t length) {
     if (ws->is_fragmented) {
         unsigned char* buffer = (unsigned char*) p_buffer;
-        memcpy(buffer, ws->buffer, length);
+        
+        ssize_t available = ws->buffer_length - ws->buffer_readed;
+        if (length > available) {
+            length = available;
+        }
+        
+        if (length <= 0) {
+            return 0;
+        }
+        
+        memcpy(buffer, ws->buffer + ws->buffer_readed, length);
         ws->buffer_readed += length;
 
-        if (ws->buffer_readed == ws->buffer_length) {
+        if (ws->buffer_readed >= ws->buffer_length) {
             free(ws->buffer);
             ws->is_fragmented = false;
             ws->buffer = NULL;
@@ -463,4 +534,9 @@ extern void pkrsrv_websocket_init(pkrsrv_websocket_t* ws) {
     ws->buffer = NULL;
     ws->buffer_length = 0;
     ws->buffer_readed = 0;
+    ws->write_mutex = NULL;
+}
+
+extern void pkrsrv_websocket_cleanup(pkrsrv_websocket_t* ws) {
+    pkrsrv_websocket_reset_fragmentation(ws);
 }
